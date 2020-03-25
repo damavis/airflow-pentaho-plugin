@@ -12,15 +12,13 @@
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 # See the License for the specific language governing permissions and
 # limitations under the License.
-from airflow.operators.bash_operator import BashOperator
-from airflow.plugins_manager import AirflowPlugin
-from airflow_pentaho.hooks.PentahoHook import PentahoHook
-from airflow_pentaho.operators.PanOperator import PanOperator
-from airflow_pentaho.operators.KitchenOperator import KitchenOperator
-BashOperator
+
+import os
+from unittest import TestCase
+
+import tests
 
 
-class PentahoPlugin(AirflowPlugin):
-    name = "pentaho"
-    operators = [KitchenOperator, PanOperator]
-    hooks = [PentahoHook]
+class TestBase(TestCase):
+
+    TESTS_PATH = os.path.dirname(os.path.abspath(tests.__file__))
