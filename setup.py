@@ -23,7 +23,7 @@ setup(
     author='Damavis',
     author_email='info@damavis.com',
     long_description='Pentaho pan and kitchen plugin for Apache Airflow',
-    url='',
+    url='https://damavis.com',
     python_requires='>=3.6',
     test_suite='nose.collector',
     zip_safe=False,
