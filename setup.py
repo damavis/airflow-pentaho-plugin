@@ -30,10 +30,8 @@ setup(
     include_package_data=True,
     packages=find_packages('.', exclude=['tests', 'tests.*']),
     classifiers=[
-        'Programming Language :: Python :: 2',
         'Programming Language :: Python :: 3',
-        'Operating System :: Unix',
-        'Environment :: Plugin'
+        'Operating System :: Unix'
     ],
     entry_points={
         'airflow.plugins': [
