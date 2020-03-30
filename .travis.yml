@@ -10,4 +10,4 @@ script:
   - tox
 
 after_success:
-  - ./bin/ci/pypi/publish.sh
+  - ./scripts/ci/pypi/publish.sh
