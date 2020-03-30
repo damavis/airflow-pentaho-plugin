@@ -18,7 +18,8 @@ from setuptools import find_packages, setup
 
 setup(
     name="airflow-pentaho-plugin",
-    version='0.1.0a1.dev0',
+    version_format='{tag}.dev{commitcount}+{gitsha}',
+    setup_requires=['setuptools-git-version'],
     author='Damavis',
     author_email='info@damavis.com',
     long_description='Pentaho pan and kitchen plugin for Apache Airflow',
