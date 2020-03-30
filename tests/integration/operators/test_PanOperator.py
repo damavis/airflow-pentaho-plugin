@@ -28,7 +28,7 @@ class TestPanOperator(OperatorTestBase):
         op = PanOperator(
             task_id="test_pan_operator",
             xcom_push=True,
-            directory="/home",
+            directory="/home/test",
             trans="test_trans",
             params={"a": "1"})
 
@@ -41,7 +41,6 @@ class TestPanOperator(OperatorTestBase):
             task_id="test_pan_operator",
             xcom_push=True,
             file=self.TESTS_PATH + "/assets/test_trans.kjb",
-            directory="/home",
             trans="test_trans",
             safemode=True,
             params={"a": "1"})

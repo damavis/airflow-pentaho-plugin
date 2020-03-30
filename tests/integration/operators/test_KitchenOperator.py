@@ -26,7 +26,7 @@ class TestKitchenOperator(OperatorTestBase):
         op = KitchenOperator(
             task_id="test_kitchen_operator",
             xcom_push=True,
-            directory="/home",
+            directory="/home/test",
             job="test_job",
             params={"a": "1"})
 
