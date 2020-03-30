@@ -2,3 +2,4 @@ apache-airflow
 coverage
 nose
 tox
+twine
