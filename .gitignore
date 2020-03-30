@@ -84,6 +84,11 @@ coverage.xml
 *.cover
 .hypothesis/
 .pytest_cache/
+cover
+unit-coverage.xml
+xunit.xml
+
+
 
 # Translations
 *.mo

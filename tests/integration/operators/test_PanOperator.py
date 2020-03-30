@@ -16,26 +16,13 @@
 
 import unittest
 
-from airflow import settings
-from airflow.models import Connection
+from airflow import settings  # Keep this import
 
 from airflow_pentaho.operators.PanOperator import PanOperator
-from tests.TestBase import TestBase
+from tests.OperatorTestBase import OperatorTestBase
 
 
-class TestPanOperator(TestBase):
-
-    def setUp(self) -> None:
-        super().setUp()
-        conn = Connection(
-            conn_id="pdi_default",
-            login="admin",
-            password="password",
-            extra='{"rep": "Default", "pentaho_home": "/opt/pentaho"}'
-        )
-        session = settings.Session()
-        session.add(conn)
-        session.commit()
+class TestPanOperator(OperatorTestBase):
 
     def test_return_value(self):
         op = PanOperator(

@@ -92,8 +92,11 @@ class PanOperator(PDIBaseOperator):
         self.maxlogtimeout = maxlogtimeout
         self.codes_map = self.STATUS_CODES
 
+    def _get_pentaho_client(self):
+        return PentahoHook(self.pdi_conn_id).get_conn()
+
     def execute(self, context):
-        conn = PentahoHook(self.pdi_conn_id).get_conn()
+        conn = self._get_pentaho_client()
 
         arguments = {
             "dir": self.dir,

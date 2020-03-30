@@ -14,26 +14,13 @@
 # limitations under the License.
 
 
-from airflow import settings
-from airflow.models import Connection
+from airflow import settings  # Keep this import
 
 from airflow_pentaho.operators.KitchenOperator import KitchenOperator
-from tests.TestBase import TestBase
+from tests.OperatorTestBase import OperatorTestBase
 
 
-class TestKitchenOperator(TestBase):
-
-    def setUp(self) -> None:
-        super().setUp()
-        conn = Connection(
-            conn_id="pdi_default",
-            login="admin",
-            password="password",
-            extra='{"rep": "Default", "pentaho_home": "/opt/pentaho"}'
-        )
-        session = settings.Session()
-        session.add(conn)
-        session.commit()
+class TestKitchenOperator(OperatorTestBase):
 
     def test_return_value(self):
         op = KitchenOperator(

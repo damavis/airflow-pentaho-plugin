@@ -46,7 +46,7 @@ class TestPentahoClient(TestCase):
                                         DEFAULT_PASSWORD,
                                         "Windows")
         tmpl = cli._get_tool_command_template()
-        self.assertEqual(tmpl, "{}\{}.sh")
+        self.assertEqual(tmpl, "{}\{}.bat")
 
     def test__get_tool_command_template_unknown(self):
         cli = PentahoHook.PentahoClient(DEFAULT_HOME,
