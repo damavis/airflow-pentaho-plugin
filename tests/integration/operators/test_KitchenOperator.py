@@ -14,7 +14,7 @@
 # limitations under the License.
 
 
-from airflow import settings  # Keep this import
+from airflow import settings  # noqa: F401
 
 from airflow_pentaho.operators.KitchenOperator import KitchenOperator
 from tests.OperatorTestBase import OperatorTestBase

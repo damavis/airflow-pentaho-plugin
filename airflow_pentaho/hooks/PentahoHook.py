@@ -39,12 +39,13 @@ class PentahoHook(BaseHook):
 
         def _get_tool_command_template(self):
             if self.system == "Windows":
-                return "{}\{}.bat"
+                return "{}\\{}.bat"
             elif self.system == "Linux":
-                return "{}/{}.sh"
+                return """{}/{}.sh"""
             else:
                 raise AirflowException(
-                    "Unsupported platform for pentaho: '{}'".format(self.system))
+                    "Unsupported platform for pentaho: '{}'"
+                    .format(self.system))
 
         def _build_tool_command(self, command):
             return self._get_tool_command_template().format(self.pentaho_home,
@@ -57,7 +58,8 @@ class PentahoHook(BaseHook):
                 return "-{}={}"
             else:
                 raise AirflowException(
-                    "Unsupported platform for pentaho: '{}'".format(self.system))
+                    "Unsupported platform for pentaho: '{}'"
+                    .format(self.system))
 
         def _build_argument(self, key, value):
             return self._get_argument_template().format(key, value)

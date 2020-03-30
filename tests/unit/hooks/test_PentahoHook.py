@@ -20,7 +20,7 @@ from airflow import AirflowException
 
 from airflow_pentaho.hooks.PentahoHook import PentahoHook
 
-WINDOWS_PDI_HOME = "C:\pentaho"
+WINDOWS_PDI_HOME = "C:\\pentaho"  # noqa: W605
 
 DEFAULT_HOME = "/opt/pentaho"
 DEFAULT_REP = "test_repository"
@@ -46,7 +46,7 @@ class TestPentahoClient(TestCase):
                                         DEFAULT_PASSWORD,
                                         "Windows")
         tmpl = cli._get_tool_command_template()
-        self.assertEqual(tmpl, "{}\{}.bat")
+        self.assertEqual(tmpl, "{}\\{}.bat")
 
     def test__get_tool_command_template_unknown(self):
         cli = PentahoHook.PentahoClient(DEFAULT_HOME,
@@ -74,7 +74,7 @@ class TestPentahoClient(TestCase):
                                         DEFAULT_PASSWORD,
                                         "Windows")
         tmpl = cli._build_tool_command("pan")
-        self.assertEqual(tmpl, "C:\pentaho\pan.bat")
+        self.assertEqual(tmpl, "C:\\pentaho\pan.bat")  # noqa: W605
 
     def test__get_argument_template_linux(self):
         cli = PentahoHook.PentahoClient(DEFAULT_HOME,

@@ -16,7 +16,7 @@
 
 from unittest.mock import MagicMock
 
-from airflow import settings  # Keep this import
+from airflow import settings  # noqa: F401
 
 from airflow_pentaho.operators.PanOperator import PanOperator
 from tests.OperatorTestBase import OperatorTestBase
@@ -33,9 +33,9 @@ class TestPanOperator(OperatorTestBase):
             params={"a": "1"})
 
         mocked_cli = MagicMock()
-        mocked_cli.build_command.return_value = """echo This is a mocked result"""
+        mocked_cli.build_command.return_value = \
+            """echo This is a mocked result"""
         op._get_pentaho_client = MagicMock(return_value=mocked_cli)
 
         return_value = op.execute(context={})
         self.assertTrue("This is a mocked result" in return_value)
-

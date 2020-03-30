@@ -25,7 +25,8 @@ class KitchenOperator(PDIBaseOperator):
         1: "Errors occurred during processing",
         2: "An unexpected error occurred during loading or running of the job",
         7: "The job couldn't be loaded from XML or the Repository",
-        8: "Error loading steps or plugins (error in loading one of the plugins mostly)",
+        8: "Error loading steps or plugins (error in loading one of the"
+           " plugins mostly)",
         9: "Command line usage printing"
     }
 
@@ -71,8 +72,8 @@ class KitchenOperator(PDIBaseOperator):
             internally by PDI. Set to 0 to keep all rows (default)
         :type maxloglines: int
         :param maxlogtimeout: The maximum age (in minutes) of a log line while
-            being kept internally by PDI. Set to 0 to keep all rows indefinitely
-            (default)
+            being kept internally by PDI. Set to 0 to keep all rows
+            indefinitely (default)
         """
         super().__init__(*args, **kwargs)
 

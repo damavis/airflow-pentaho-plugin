@@ -23,10 +23,12 @@ class PanOperator(PDIBaseOperator):
     STATUS_CODES = {
         0: "The transformation ran without a problem.",
         1: "Errors occurred during processing",
-        2: "An unexpected error occurred during loading / running of the transformation",
+        2: "An unexpected error occurred during loading / running of the"
+           " transformation",
         3: "Unable to prepare and initialize this transformation",
         7: "The transformation couldn't be loaded from XML or the Repository",
-        8: "Error loading steps or plugins (error in loading one of the plugins mostly)",
+        8: "Error loading steps or plugins (error in loading one of the"
+           " plugins mostly)",
         9: "Command line usage printing"
     }
 
@@ -73,8 +75,8 @@ class PanOperator(PDIBaseOperator):
             internally by PDI. Set to 0 to keep all rows (default)
         :type maxloglines: int
         :param maxlogtimeout: The maximum age (in minutes) of a log line while
-            being kept internally by PDI. Set to 0 to keep all rows indefinitely
-            (default)
+            being kept internally by PDI. Set to 0 to keep all rows
+            indefinitely (default)
         """
         super().__init__(*args, **kwargs)
 

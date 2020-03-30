@@ -16,7 +16,7 @@
 
 import unittest
 
-from airflow import settings  # Keep this import
+from airflow import settings  # noqa: F401
 
 from airflow_pentaho.operators.PanOperator import PanOperator
 from tests.OperatorTestBase import OperatorTestBase
