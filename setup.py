@@ -18,7 +18,7 @@ from setuptools import find_packages, setup
 
 setup(
     name="airflow-pentaho-plugin",
-    version_format='{tag}.dev{commitcount}',
+    version_format='{tag}.post{commitcount}',
     setup_requires=['setuptools-git-version'],
     author='Damavis',
     author_email='info@damavis.com',
