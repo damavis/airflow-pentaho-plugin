@@ -33,7 +33,6 @@ setup(
         'Programming Language :: Python :: 2',
         'Programming Language :: Python :: 3',
         'Operating System :: Unix',
-        'Operating System :: Windows',  # Not tested
         'Environment :: Plugin'
     ],
     entry_points={
