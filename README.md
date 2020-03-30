@@ -1,5 +1,7 @@
 # Pentaho Airflow plugin
 
+[![Build Status](https://travis-ci.org/damavis/airflow-pentaho-plugin.svg?branch=master)](https://travis-ci.org/damavis/airflow-pentaho-plugin)
+
 This plugin runs Pan (transformations) and Kitchen (Jobs) in PDI
 repository or local XML files. It allows to orchestrate a massive
 number of trans/jobs taking care of the dependencies between them,
@@ -23,7 +25,7 @@ in **Airflow** *Concepts* section.
 First of all, the package should be installed via `pip install` command.
 
 ```bash
-pip install git+https://github.com/damavis/airflow-pentaho-plugin.git
+pip install airflow-pentaho-plugin
 ```
 
 ### Airflow connection
