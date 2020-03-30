@@ -90,7 +90,7 @@ clean_input = PanOperator(
     queue="pdi",
     task_id="cleanup",
     directory="/home/bi",
-    job="clean_somedata",
+    trans="clean_somedata",
     params={"file": "/tmp/input_data/{{ ds }}/sells.csv"},
     dag=dag)
 
