@@ -21,6 +21,7 @@ from airflow.utils.dates import days_ago
 from airflow.operators.pentaho import KitchenOperator
 from airflow.operators.pentaho import PanOperator
 from airflow.operators.pentaho import CarteJobOperator
+from airflow.operators.pentaho import CarteTransOperator
 
 DAG_NAME = "pdi_flow"
 DEFAULT_ARGS = {
@@ -55,10 +56,16 @@ with DAG(dag_id=DAG_NAME,
         trans="test_trans",
         params={"date": "{{ ds }}"})
 
+    trans2 = CarteTransOperator(
+        dag=dag,
+        task_id="trans2",
+        trans="/home/bi/test_trans",
+        params={"date": "{{ ds }}"})
+
     job3 = CarteJobOperator(
         dag=dag,
         task_id="job3",
         job="/home/bi/test_job",
         params={"date": "{{ ds }}"})
 
-    job1 >> trans1 >> job3
+    job1 >> trans1 >> trans2 >> job3

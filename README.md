@@ -2,15 +2,20 @@
 
 [![Build Status](https://travis-ci.org/damavis/airflow-pentaho-plugin.svg?branch=master)](https://travis-ci.org/damavis/airflow-pentaho-plugin)
 
-This plugin runs Pan (transformations) and Kitchen (Jobs) in PDI
-repository or local XML files. It allows to orchestrate a massive
-number of trans/jobs taking care of the dependencies between them,
-even between different instances.
+This plugins runs Jobs and Transformations through Carte servers.
+It allows to orchestrate a massive number of trans/jobs taking care 
+of the dependencies between them, even between different instances.
+This is done by using `CarteJobOperator` and `CarteTransOperator`
+
+It also runs Pan (transformations) and Kitchen (Jobs) in local mode,
+both from repository and local XML files. For this approach, use
+`KitchenOperator` and `PanOperator`
 
 ## Requirements
 
-1. One or many working PDI CE installations.
-2. A Apache Airflow system deployed.
+1. A Apache Airflow system deployed.
+2. One or many working PDI CE installations.
+3. A Carte server for Carte Operators.
 
 ## Setup
 
@@ -112,6 +117,29 @@ avg_spent = KitchenOperator(
 # ... #
 
 some_task >> avg_spent >> another_task
+```
+
+### CarteTransOperator
+
+CarteTransOperator is responsible for running transformations in remote slave
+servers. Here it is an example of `CarteTransOperator` usage.
+
+```python
+from airflow.operators.pentaho import CarteTransOperator
+
+# ... #
+
+# Define the task using the CarteJobOperator
+enriche_customers = CarteTransOperator(
+    conn_id='pdi_default',
+    task_id="enrich_customer_data",
+    job="/home/bi/enrich_customer_data",
+    params={"date": "{{ ds }}"},  # Date in yyyy-mm-dd format
+    dag=dag)
+
+# ... #
+
+some_task >> enrich_customers >> another_task
 ```
 
 ### PanOperator

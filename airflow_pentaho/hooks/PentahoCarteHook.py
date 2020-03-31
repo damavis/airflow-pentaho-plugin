@@ -29,6 +29,8 @@ class PentahoCarteHook(BaseHook):
 
         RUN_JOB = "/kettle/executeJob/"
         JOB_STATUS = "/kettle/jobStatus/"
+        RUN_TRANS = "/kettle/executeTrans/"
+        TRANS_STATUS = "/kettle/transStatus/"
 
         def __init__(
                 self,
@@ -39,7 +41,7 @@ class PentahoCarteHook(BaseHook):
                 password,
                 carte_username,
                 carte_password,
-                level):
+                level='Basic'):
             self.host = host
             self.port = port
             self.rep = rep
@@ -104,6 +106,48 @@ class PentahoCarteHook(BaseHook):
             else:
                 return xmltodict.parse(rs.content)
 
+        def trans_status(self, trans_name, previous_response=None):
+            url = self.__get_url(self.TRANS_STATUS)
+            headers = {"Content-Type": "application/x-www-form-urlencoded"}
+
+            from_line = previous_response["transstatus"]["last_log_line_nr"] \
+                if previous_response \
+                else 0
+
+            payload = {
+                "name": trans_name,
+                "xml": "Y",
+                "from": from_line
+            }
+
+            rs = requests.post(url=url, headers=headers,
+                               data=urlencode(payload), auth=self.__get_auth())
+            if rs.status_code >= 300:
+                result = xmltodict.parse(rs.content)
+                raise AirflowException("{}: {}".format(
+                    result["webresult"]["result"],
+                    result["webresult"]["message"])
+                )
+            else:
+                return xmltodict.parse(rs.content)
+
+        def run_trans(self, trans_path, params=None):
+            url = self.__get_url(self.RUN_TRANS)
+            args = {
+                "user": self.username,
+                "pass": self.password,
+                "rep": self.rep,
+                "trans": trans_path,
+                "level": "Debug"
+            }
+
+            if params:
+                args.update(params)
+
+            rs = requests.get(url=url, params=args, auth=self.__get_auth())
+            if rs.status_code >= 300:
+                raise AirflowException(rs.content)
+
     def __init__(self, conn_id="pdi_default", level='Basic'):
         self.conn_id = conn_id
         self.level = level
@@ -130,4 +174,3 @@ class PentahoCarteHook(BaseHook):
             self.level)
 
         return self.pentaho_cli
-

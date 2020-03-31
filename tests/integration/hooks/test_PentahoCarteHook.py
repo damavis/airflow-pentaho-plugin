@@ -50,3 +50,14 @@ class TestPentahoCarteClient(TestCase):
             time.sleep(5)
 
         self.assertTrue("result" in rs["jobstatus"])
+
+    def test_run_trans_and_wait(self):
+        cli = self._get_cli()
+        cli.run_trans("/home/bi/test_trans")
+
+        rs = None
+        while not rs or rs["transstatus"]["status_desc"] != "Finished":
+            rs = cli.trans_status("test_trans", rs)
+            time.sleep(5)
+
+        self.assertTrue("result" in rs["transstatus"])

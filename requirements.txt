@@ -1,4 +1,5 @@
 apache-airflow
+xmltodict
 flake8
 coverage
 nose
