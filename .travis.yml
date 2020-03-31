@@ -5,6 +5,7 @@ python:
 
 install:
   - pip install -r requirements.txt
+  - airflow initdb
 
 script:
   - tox
