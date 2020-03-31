@@ -19,6 +19,8 @@ from datetime import timedelta
 from airflow import DAG
 from airflow.utils.dates import days_ago
 from airflow.operators.pentaho import KitchenOperator
+from airflow.operators.pentaho import PanOperator
+from airflow.operators.pentaho import CarteJobOperator
 
 DAG_NAME = "pdi_flow"
 DEFAULT_ARGS = {
@@ -41,16 +43,22 @@ with DAG(dag_id=DAG_NAME,
         dag=dag,
         task_id="job1",
         xcom_push=True,
-        directory="/home",
+        directory="/home/bi",
         job="test_job",
         params={"date": "{{ ds }}"})
 
-    job2 = KitchenOperator(
+    trans1 = PanOperator(
         dag=dag,
-        task_id="job2",
+        task_id="trans1",
         xcom_push=True,
-        directory="/home",
-        job="test_job",
+        directory="/home/bi",
+        trans="test_trans",
         params={"date": "{{ ds }}"})
 
-    job1 >> job2
+    job3 = CarteJobOperator(
+        dag=dag,
+        task_id="job3",
+        job="/home/bi/test_job",
+        params={"date": "{{ ds }}"})
+
+    job1 >> trans1 >> job3

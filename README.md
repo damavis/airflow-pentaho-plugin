@@ -42,10 +42,50 @@ path where your pdi-ce is placed, and `rep`, the repository name for this
 connection, using a json formatted string like it follows.
 
 ```json
-{"pentaho_home": "/opt/pentaho", "rep": "Default"}
+{
+    "pentaho_home": "/opt/pentaho",
+    "rep": "Default"
+}
+```
+
+### Carte
+
+In order to use `CarteJobOperator`, the connection should be set different. Fill
+`host` and `port` for Carte hostname and port, `username` and `password` for PDI
+repository, and `extra` as it follows.
+
+```json
+{
+    "rep": "Default",
+    "carte_username": "cluster",
+    "carte_password": "cluster"
+}
 ```
 
 ## Usage
+
+### CarteJobOperator
+
+CarteJobOperator is responsible for running jobs in remote slave servers. Here
+it is an example of `CarteJobOperator` usage.
+
+```python
+from airflow.operators.pentaho import CarteJobOperator
+
+# ... #
+
+# Define the task using the CarteJobOperator
+avg_spent = CarteJobOperator(
+    conn_id='pdi_default',
+    task_id="average_spent",
+    job="/home/bi/average_spent",
+    params={"date": "{{ ds }}"},  # Date in yyyy-mm-dd format
+    dag=dag)
+
+# ... #
+
+some_task >> avg_spent >> another_task
+```
 
 ### KitchenOperator
 

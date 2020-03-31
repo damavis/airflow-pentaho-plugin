@@ -12,17 +12,3 @@
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 # See the License for the specific language governing permissions and
 # limitations under the License.
-
-
-from airflow.plugins_manager import AirflowPlugin
-from airflow_pentaho.hooks.PentahoHook import PentahoHook
-from airflow_pentaho.operators.PanOperator import PanOperator
-from airflow_pentaho.operators.KitchenOperator import KitchenOperator
-from airflow_pentaho.hooks.PentahoCarteHook import PentahoCarteHook
-from airflow_pentaho.operators.CarteJobOperator import CarteJobOperator
-
-
-class PentahoPlugin(AirflowPlugin):
-    name = "pentaho"
-    operators = [KitchenOperator, PanOperator, CarteJobOperator]
-    hooks = [PentahoHook, PentahoCarteHook]

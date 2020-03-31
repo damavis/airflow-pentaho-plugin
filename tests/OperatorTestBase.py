@@ -27,12 +27,24 @@ class OperatorTestBase(TestBase):
     def setUp(self) -> None:
         super().setUp()
         conn = Connection(conn_id="pdi_default")
+
+        extra = """
+        {
+            "rep": "Default",
+            "pentaho_home": "/opt/pentaho",
+            "carte_username": "cluster",
+            "carte_password": "cluster"
+        }
+        """
+
         if not conn:
             conn = Connection(
                 conn_id="pdi_default",
+                host="localhost",
+                port="8880",
                 login="admin",
                 password="password",
-                extra='{"rep": "Default", "pentaho_home": "/opt/pentaho"}'
+                extra=extra
             )
             session = settings.Session()
             session.add(conn)

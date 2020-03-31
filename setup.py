@@ -33,6 +33,9 @@ setup(
         'Programming Language :: Python :: 3',
         'Operating System :: Unix'
     ],
+    install_requires=[
+      "xmltodict >= 0.10.0"
+    ],
     entry_points={
         'airflow.plugins': [
             'pentaho = airflow_pentaho.plugin:PentahoPlugin'

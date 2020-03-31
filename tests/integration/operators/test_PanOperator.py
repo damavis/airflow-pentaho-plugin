@@ -35,7 +35,7 @@ class TestPanOperator(OperatorTestBase):
         return_value = op.execute(context={})
         self.assertTrue("ended successfully" in return_value)
 
-    @unittest.expectedFailure  # Transformation XML is not valid error
+    @unittest.expectedFailure  # Transformation XML is not valid, error
     def test_return_value_file(self):
         op = PanOperator(
             task_id="test_pan_operator",
