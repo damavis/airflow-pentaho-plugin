@@ -24,8 +24,9 @@ class OperatorTestBase(TestBase):
 
     conn_id = None
 
-    def setUp(self) -> None:
-        super().setUp()
+    @classmethod
+    def setUpClass(cls):
+        super().setUpClass()
         conn = Connection(conn_id="pdi_default")
 
         extra = """
@@ -37,7 +38,7 @@ class OperatorTestBase(TestBase):
         }
         """
 
-        if not conn:
+        if not conn.login:
             conn = Connection(
                 conn_id="pdi_default",
                 host="localhost",
