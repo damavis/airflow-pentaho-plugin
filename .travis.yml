@@ -17,3 +17,6 @@ deploy:
     secure: VkXM0rArpus0FXeCaebUiVSNhn5DvPa1vE8cvubyJb0OX83PFPLitiJhPKncCFx071hhjRiPRGeU4WCBl7p/aVjVv6tTrb32jFQl8MbV+0GcfSu35Mca4VSyFNzWmpY1JDonJ/RN2k/Sj1ipkFts0iQ//MBERp7lmNBul9eTXQg9Fdc2QAOj/SXYiBCp/R65sh1jXwT/ylCTKafGbIx6XAcJQVYt6rbxBCUOf6QQnasrW9E+yQMl3Q1uNqPUNWZPJNqhWehxubtkquDg/+CAk5Mmm+o1NSVElF0wKyxYd/55vbSRkCku3b87tYOiwpl1RxwJ/Mc9EiOmaqOSdY/JKY9osu9B15ji5IzOmhpt8AHc0iTgDrT3p6o/nTviVlmuZdzJTS3q3q6vcz2JFe2VpFUb2/8I+4Ay5lC7+jzF/XNg4QIiCAuxEwH2ZtC5wwt8uYWi6YCiB1UYOdvIdos3KgZHyTW/QRjLT9sJ7DlQP69UZ9yOvLLFqzrkc3PlGYlzK9nqVzucRI06vJpHRknzv9XHJUUovvB+7TI+nU3re7Gkyh/n1+LZH2+g1DLbxj+pV5WV62EYyaiMiN/ROmN0lVC1drI4LcZ9po6RWiUDnrirVOkUMm3cxrUImy46FIc0uxDNkAI0URZP5gBTYYEfEMw8nBDwONTAvTCzbW50zaw=
   on:
     tags: true
+
+after_success:
+  - bash <(curl -s https://codecov.io/bash)
