@@ -17,16 +17,12 @@
 import time
 
 from airflow import AirflowException
-from airflow.models import BaseOperator
 
 from airflow_pentaho.hooks.PentahoCarteHook import PentahoCarteHook
+from airflow_pentaho.operators.CarteBaseOperator import CarteBaseOperator
 
 
-class CarteJobOperator(BaseOperator):
-
-    DEFAULT_CONN_ID = "pdi_default"
-
-    template_fields = ('params',)
+class CarteJobOperator(CarteBaseOperator):
 
     def __init__(self,
                  job,
@@ -73,19 +69,15 @@ class CarteJobOperator(BaseOperator):
         status_job_rs = None
         status = None
         status_desc = None
-        while not status_job_rs or status_desc != "Finished":
+        while not status_job_rs or status_desc not in self.FINISHED_STATUSES:
             status_job_rs = conn.job_status(self._get_job_name(), job_id,
                                             status_job_rs)
             status = status_job_rs["jobstatus"]
             status_desc = status["status_desc"]
             self.log.info("%s: %s, with id %s", status_desc, self.job, job_id)
+            self._log_logging_string(status["logging_string"])
 
-            # TODO: Decode data and log it
-            # logs = status_job_rs["jobstatus"]["logging_string"]
-            # cdata = re.match(r'\<\!\[CDATA\[([^\]]+)\]\]\>', logs).group(1)
-            # self.log.info(cdata)
-
-            if status_desc != "Finished":
+            if status_desc not in self.FINISHED_STATUSES:
                 self.log.info("Sleeping 5 seconds before ask again")
                 time.sleep(5)
 
@@ -93,6 +85,3 @@ class CarteJobOperator(BaseOperator):
             self.log.error("%s: %s, with id %s", status["error_desc"],
                            self.job, job_id)
             raise AirflowException(status["error_desc"])
-        else:
-            self.log.info("Log text: %s",
-                          status["result"]["log_text"])

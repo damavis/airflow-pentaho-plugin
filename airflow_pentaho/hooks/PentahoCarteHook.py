@@ -74,7 +74,7 @@ class PentahoCarteHook(BaseHook):
 
             rs = requests.post(url=url, headers=headers,
                                data=urlencode(payload), auth=self.__get_auth())
-            if rs.status_code >= 300:
+            if rs.status_code >= 400:
                 result = xmltodict.parse(rs.content)
                 raise AirflowException("{}: {}".format(
                     result["webresult"]["result"],
@@ -97,7 +97,7 @@ class PentahoCarteHook(BaseHook):
                 args.update(params)
 
             rs = requests.get(url=url, params=args, auth=self.__get_auth())
-            if rs.status_code >= 300:
+            if rs.status_code >= 400:
                 result = xmltodict.parse(rs.content)
                 raise AirflowException("{}: {}".format(
                     result["webresult"]["result"],
@@ -122,7 +122,7 @@ class PentahoCarteHook(BaseHook):
 
             rs = requests.post(url=url, headers=headers,
                                data=urlencode(payload), auth=self.__get_auth())
-            if rs.status_code >= 300:
+            if rs.status_code >= 400:
                 result = xmltodict.parse(rs.content)
                 raise AirflowException("{}: {}".format(
                     result["webresult"]["result"],
@@ -145,7 +145,7 @@ class PentahoCarteHook(BaseHook):
                 args.update(params)
 
             rs = requests.get(url=url, params=args, auth=self.__get_auth())
-            if rs.status_code >= 300:
+            if rs.status_code >= 400:
                 raise AirflowException(rs.content)
 
     def __init__(self, conn_id="pdi_default", level='Basic'):

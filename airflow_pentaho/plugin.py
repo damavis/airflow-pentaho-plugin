@@ -15,14 +15,16 @@
 
 
 from airflow.plugins_manager import AirflowPlugin
-from airflow_pentaho.hooks.PentahoHook import PentahoHook
-from airflow_pentaho.operators.PanOperator import PanOperator
-from airflow_pentaho.operators.KitchenOperator import KitchenOperator
 from airflow_pentaho.hooks.PentahoCarteHook import PentahoCarteHook
+from airflow_pentaho.hooks.PentahoHook import PentahoHook
 from airflow_pentaho.operators.CarteJobOperator import CarteJobOperator
+from airflow_pentaho.operators.CarteTransOperator import CarteTransOperator
+from airflow_pentaho.operators.KitchenOperator import KitchenOperator
+from airflow_pentaho.operators.PanOperator import PanOperator
 
 
 class PentahoPlugin(AirflowPlugin):
     name = "pentaho"
-    operators = [KitchenOperator, PanOperator, CarteJobOperator]
+    operators = [KitchenOperator, PanOperator,
+                 CarteJobOperator, CarteTransOperator]
     hooks = [PentahoHook, PentahoCarteHook]
