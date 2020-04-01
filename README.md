@@ -1,6 +1,7 @@
 # Pentaho Airflow plugin
 
 [![Build Status](https://travis-ci.org/damavis/airflow-pentaho-plugin.svg?branch=master)](https://travis-ci.org/damavis/airflow-pentaho-plugin)
+[![codecov](https://codecov.io/gh/damavis/airflow-pentaho-plugin/branch/master/graph/badge.svg)](https://codecov.io/gh/damavis/airflow-pentaho-plugin)
 
 This plugins runs Jobs and Transformations through Carte servers.
 It allows to orchestrate a massive number of trans/jobs taking care 
