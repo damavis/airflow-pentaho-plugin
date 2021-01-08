@@ -24,7 +24,7 @@ from airflow_pentaho.operators.PanOperator import PanOperator
 
 
 class PentahoPlugin(AirflowPlugin):
-    name = "pentaho"
+    name = "airflow_pentaho"
     operators = [KitchenOperator, PanOperator,
                  CarteJobOperator, CarteTransOperator]
     hooks = [PentahoHook, PentahoCarteHook]

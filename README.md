@@ -78,7 +78,10 @@ CarteJobOperator is responsible for running jobs in remote slave servers. Here
 it is an example of `CarteJobOperator` usage.
 
 ```python
-from airflow.operators.pentaho import CarteJobOperator
+# For versions before 2.0
+# from airflow.operators.pentaho import CarteJobOperator
+
+from airflow_pentaho.operators.CarteJobOperator import CarteJobOperator
 
 # ... #
 
@@ -103,7 +106,10 @@ the argument `date` as input parameter. Lets define the task using the
 `KitchenOperator`.
 
 ```python
-from airflow.operators.pentaho import KitchenOperator
+# For versions before 2.0
+# from airflow.operators.pentaho import KitchenOperator
+
+from airflow_pentaho.operators.KitchenOperator import KitchenOperator
 
 # ... #
 
@@ -128,7 +134,10 @@ CarteTransOperator is responsible for running transformations in remote slave
 servers. Here it is an example of `CarteTransOperator` usage.
 
 ```python
-from airflow.operators.pentaho import CarteTransOperator
+# For versions before 2.0
+# from airflow.operators.pentaho import CarteTransOperator
+
+from airflow_pentaho.operators.CarteTransOperator import CarteTransOperator
 
 # ... #
 
@@ -153,11 +162,14 @@ we have one saved on `/home/bi/clean_somedata`. Lets define the task using the
 determines the file to be cleaned.
 
 ```python
-from airflow.operators.pentaho import PanOperator
+# For versions before 2.0
+# from airflow.operators.pentaho import PanOperator
+
+from airflow_pentaho.operators.PanOperator import PanOperator
 
 # ... #
 
-# Define the task using the KitchenOperator
+# Define the task using the PanOperator
 clean_input = PanOperator(
     conn_id='pdi_default',
     queue="pdi",

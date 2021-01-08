@@ -42,12 +42,15 @@ setup(
         'Operating System :: Unix',
         'Programming Language :: Python :: 3'
     ],
+    test_requires=[
+        "apache-airflow >= 2.0.0"
+    ],
     install_requires=[
-      "xmltodict >= 0.10.0"
+      "xmltodict >= 0.10.0",
     ],
     entry_points={
         'airflow.plugins': [
-            'pentaho = airflow_pentaho.plugin:PentahoPlugin'
+            'airflow_pentaho = airflow_pentaho.plugin:PentahoPlugin'
         ]
     }
 )

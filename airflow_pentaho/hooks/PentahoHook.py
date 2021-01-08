@@ -17,7 +17,7 @@
 import platform
 
 from airflow import AirflowException
-from airflow.hooks.base_hook import BaseHook
+from airflow.hooks.base import BaseHook
 
 
 class PentahoHook(BaseHook):
@@ -30,7 +30,10 @@ class PentahoHook(BaseHook):
                 rep,
                 username,
                 password,
-                system):
+                system,
+                *args,
+                **kwargs):
+            super().__init__(*args, **kwargs)
             self.pentaho_home = pentaho_home
             self.rep = rep
             self.username = username
@@ -44,7 +47,7 @@ class PentahoHook(BaseHook):
                 return """{}/{}.sh"""
             else:
                 raise AirflowException(
-                    "Unsupported platform for pentaho: '{}'"
+                    "Unsupported platform for airflow_pentaho: '{}'"
                     .format(self.system))
 
         def _build_tool_command(self, command):
@@ -58,7 +61,7 @@ class PentahoHook(BaseHook):
                 return "-{}={}"
             else:
                 raise AirflowException(
-                    "Unsupported platform for pentaho: '{}'"
+                    "Unsupported platform for airflow_pentaho: '{}'"
                     .format(self.system))
 
         def _build_argument(self, key, value):

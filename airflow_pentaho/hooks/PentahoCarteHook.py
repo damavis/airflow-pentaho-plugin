@@ -19,7 +19,7 @@ import xmltodict
 from urllib.parse import urlencode
 
 from airflow import AirflowException
-from airflow.hooks.base_hook import BaseHook
+from airflow.hooks.base import BaseHook
 from requests.auth import HTTPBasicAuth
 
 
@@ -41,7 +41,10 @@ class PentahoCarteHook(BaseHook):
                 password,
                 carte_username,
                 carte_password,
-                level='Basic'):
+                level='Basic',
+                *args,
+                **kwargs):
+            super().__init__(*args, **kwargs)
             self.host = host
             self.port = port
             self.rep = rep
@@ -148,7 +151,8 @@ class PentahoCarteHook(BaseHook):
             if rs.status_code >= 400:
                 raise AirflowException(rs.content)
 
-    def __init__(self, conn_id="pdi_default", level='Basic'):
+    def __init__(self, conn_id="pdi_default", level='Basic', *args, **kwargs):
+        super().__init__(*args, **kwargs)
         self.conn_id = conn_id
         self.level = level
         self.connection = self.get_connection(conn_id)

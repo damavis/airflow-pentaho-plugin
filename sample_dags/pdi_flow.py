@@ -18,10 +18,19 @@ from datetime import timedelta
 
 from airflow import DAG
 from airflow.utils.dates import days_ago
-from airflow.operators.pentaho import KitchenOperator
-from airflow.operators.pentaho import PanOperator
-from airflow.operators.pentaho import CarteJobOperator
-from airflow.operators.pentaho import CarteTransOperator
+
+from airflow_pentaho.operators.KitchenOperator import KitchenOperator
+from airflow_pentaho.operators.PanOperator import PanOperator
+from airflow_pentaho.operators.CarteJobOperator import CarteJobOperator
+from airflow_pentaho.operators.CarteTransOperator import CarteTransOperator
+
+"""
+# For versions before 2.0
+from airflow.operators.airflow_pentaho import KitchenOperator
+from airflow.operators.airflow_pentaho import PanOperator
+from airflow.operators.airflow_pentaho import CarteJobOperator
+from airflow.operators.airflow_pentaho import CarteTransOperator
+"""
 
 DAG_NAME = "pdi_flow"
 DEFAULT_ARGS = {

@@ -38,15 +38,21 @@ class OperatorTestBase(TestBase):
         }
         """
 
-        if not conn.login:
-            conn = Connection(
-                conn_id="pdi_default",
-                host="localhost",
-                port="8880",
-                login="admin",
-                password="password",
-                extra=extra
-            )
-            session = settings.Session()
-            session.add(conn)
-            session.commit()
+        session = settings.Session()
+
+        try:
+            if not conn.login:
+                conn = Connection(
+                    conn_type="pentaho",
+                    conn_id="pdi_default",
+                    host="localhost",
+                    port="8880",
+                    login="admin",
+                    password="password",
+                    extra=extra
+                )
+                session.add(conn)
+                session.commit()
+        except Exception as ex:
+            print(ex)
+            session.rollback()
