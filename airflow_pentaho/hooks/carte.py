@@ -30,10 +30,10 @@ class PentahoCarteHook(BaseHook):
     class PentahoCarteClient:
         """Implementation for Carte calls"""
 
-        RUN_JOB = '/kettle/executeJob/'
-        JOB_STATUS = '/kettle/jobStatus/'
-        RUN_TRANS = '/kettle/executeTrans/'
-        TRANS_STATUS = '/kettle/transStatus/'
+        RUN_JOB_ENDPOINT = '/kettle/executeJob/'
+        JOB_STATUS_ENDPOINT = '/kettle/jobStatus/'
+        RUN_TRANS_ENDPOINT = '/kettle/executeTrans/'
+        TRANS_STATUS_ENDPOINT = '/kettle/transStatus/'
 
         def __init__(
                 self,
@@ -66,7 +66,7 @@ class PentahoCarteHook(BaseHook):
             return HTTPBasicAuth(self.carte_username, self.carte_password)
 
         def job_status(self, job_name, job_id, previous_response=None):
-            url = self.__get_url(self.JOB_STATUS)
+            url = self.__get_url(self.JOB_STATUS_ENDPOINT)
             headers = {'Content-Type': 'application/x-www-form-urlencoded'}
 
             from_line = previous_response['jobstatus']['last_log_line_nr'] \
@@ -92,7 +92,7 @@ class PentahoCarteHook(BaseHook):
                 return xmltodict.parse(rs.content)
 
         def run_job(self, job_path, params=None):
-            url = self.__get_url(self.RUN_JOB)
+            url = self.__get_url(self.RUN_JOB_ENDPOINT)
             args = {
                 'user': self.username,
                 'pass': self.password,
@@ -115,7 +115,7 @@ class PentahoCarteHook(BaseHook):
                 return xmltodict.parse(rs.content)
 
         def trans_status(self, trans_name, previous_response=None):
-            url = self.__get_url(self.TRANS_STATUS)
+            url = self.__get_url(self.TRANS_STATUS_ENDPOINT)
             headers = {'Content-Type': 'application/x-www-form-urlencoded'}
 
             from_line = previous_response['transstatus']['last_log_line_nr'] \
@@ -140,7 +140,7 @@ class PentahoCarteHook(BaseHook):
                 return xmltodict.parse(rs.content)
 
         def run_trans(self, trans_path, params=None):
-            url = self.__get_url(self.RUN_TRANS)
+            url = self.__get_url(self.RUN_TRANS_ENDPOINT)
             args = {
                 'user': self.username,
                 'pass': self.password,
