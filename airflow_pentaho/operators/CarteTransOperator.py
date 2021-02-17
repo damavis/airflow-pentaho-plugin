@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 # pylint: disable=invalid-name
-"""This module is deprecated. Please use `airflow_pentaho.operators.carte_trans`."""
+"""This module is deprecated. Please use `airflow_pentaho.operators.carte`."""
 
 import warnings
 
@@ -8,6 +8,6 @@ import warnings
 from airflow_pentaho.operators.carte import CarteTransOperator  # noqa
 
 warnings.warn(
-    'This module is deprecated. Please use `airflow_pentaho.operators.carte_trans`.',
+    'This module is deprecated. Please use `airflow_pentaho.operators.carte`.',
     DeprecationWarning,
     stacklevel=2)

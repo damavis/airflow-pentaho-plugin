@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 # pylint: disable=invalid-name
-"""This module is deprecated. Please use `airflow_pentaho.operators.pan`."""
+"""This module is deprecated. Please use `airflow_pentaho.operators.kettle`."""
 
 import warnings
 
@@ -8,6 +8,6 @@ import warnings
 from airflow_pentaho.operators.kettle import PanOperator  # noqa
 
 warnings.warn(
-    'This module is deprecated. Please use `airflow_pentaho.operators.pan`.',
+    'This module is deprecated. Please use `airflow_pentaho.operators.kettle`.',
     DeprecationWarning,
     stacklevel=2)
