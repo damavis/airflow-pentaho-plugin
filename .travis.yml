@@ -10,6 +10,7 @@ install:
 
 script:
   - pre-commit run --all-files
+  - ./scripts/test.sh
 
 deploy:
   provider: pypi

@@ -27,9 +27,3 @@ repos:
     hooks:
     -   id: pylint
         exclude: tests
--   repo: local
-    hooks:
-    -   id: pytest
-        language: system
-        name: Pytest
-        entry: 'scripts/test.sh'
