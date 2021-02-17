@@ -30,6 +30,7 @@ class CarteBaseOperator(BaseOperator):
     """Carte Base Operator"""
 
     FINISHED_STATUSES = ['Finished', 'Stopped']
+
     DEFAULT_CONN_ID = 'pdi_default'
 
     template_fields = ('params',)
@@ -48,6 +49,8 @@ class CarteBaseOperator(BaseOperator):
 
 class CarteJobOperator(CarteBaseOperator):
     """Carte Job operator. Runs job on Carte service."""
+
+    LOG_TEMPLATE = '%s: %s, with id %s'
 
     def __init__(self,
                  job,
@@ -100,7 +103,7 @@ class CarteJobOperator(CarteBaseOperator):
                                             status_job_rs)
             status = status_job_rs['jobstatus']
             status_desc = status['status_desc']
-            self.log.info('%s: %s, with id %s', status_desc, self.job, job_id)
+            self.log.info(self.LOG_TEMPLATE, status_desc, self.job, job_id)
             self._log_logging_string(status['logging_string'])
 
             if status_desc not in self.FINISHED_STATUSES:
@@ -108,13 +111,15 @@ class CarteJobOperator(CarteBaseOperator):
                 time.sleep(5)
 
         if 'error_desc' in status and status['error_desc']:
-            self.log.error('%s: %s, with id %s', status['error_desc'],
+            self.log.error(self.LOG_TEMPLATE, status['error_desc'],
                            self.job, job_id)
             raise AirflowException(status['error_desc'])
 
 
 class CarteTransOperator(CarteBaseOperator):
     """Cart Transformation operator. Runs job on Carte service."""
+
+    LOG_TEMPLATE = '%s: %s'
 
     def __init__(self,
                  trans,
@@ -166,7 +171,7 @@ class CarteTransOperator(CarteBaseOperator):
                                                 status_trans_rs)
             status = status_trans_rs['transstatus']
             status_desc = status['status_desc']
-            self.log.info('%s: %s', status_desc, self.trans)
+            self.log.info(self.LOG_TEMPLATE, status_desc, self.trans)
             self._log_logging_string(status['logging_string'])
 
             if status_desc not in self.FINISHED_STATUSES:
@@ -174,6 +179,5 @@ class CarteTransOperator(CarteBaseOperator):
                 time.sleep(5)
 
         if 'error_desc' in status and status['error_desc']:
-            self.log.error('%s: %s, with id %s', status['error_desc'],
-                           self.trans)
+            self.log.error(self.LOG_TEMPLATE, status['error_desc'], self.trans)
             raise AirflowException(status['error_desc'])
