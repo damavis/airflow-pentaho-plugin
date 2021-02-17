@@ -1,7 +1,8 @@
-apache-airflow
+apache-airflow==2.0.0
 xmltodict
+
+# dev
+pytest
+pytest-cov
 flake8
-coverage
-nose
-tox
 twine

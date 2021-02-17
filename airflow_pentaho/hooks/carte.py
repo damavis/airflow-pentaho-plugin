@@ -12,6 +12,7 @@
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 # See the License for the specific language governing permissions and
 # limitations under the License.
+"""Carte hook module"""
 
 
 import requests
@@ -24,13 +25,15 @@ from requests.auth import HTTPBasicAuth
 
 
 class PentahoCarteHook(BaseHook):
+    """Implementation hook for interact with Carte Rest API"""
 
     class PentahoCarteClient:
+        """Implementation for Carte calls"""
 
-        RUN_JOB = "/kettle/executeJob/"
-        JOB_STATUS = "/kettle/jobStatus/"
-        RUN_TRANS = "/kettle/executeTrans/"
-        TRANS_STATUS = "/kettle/transStatus/"
+        RUN_JOB = '/kettle/executeJob/'
+        JOB_STATUS = '/kettle/jobStatus/'
+        RUN_TRANS = '/kettle/executeTrans/'
+        TRANS_STATUS = '/kettle/transStatus/'
 
         def __init__(
                 self,
@@ -41,8 +44,8 @@ class PentahoCarteHook(BaseHook):
                 password,
                 carte_username,
                 carte_password,
-                level='Basic',
                 *args,
+                level='Basic',
                 **kwargs):
             super().__init__(*args, **kwargs)
             self.host = host
@@ -55,33 +58,33 @@ class PentahoCarteHook(BaseHook):
             self.level = level
 
         def __get_url(self, method):
-            return "http://{}:{}{}".format(self.host, self.port, method)
+            return 'http://{}:{}{}'.format(self.host, self.port, method)
 
         def __get_auth(self):
             return HTTPBasicAuth(self.carte_username, self.carte_password)
 
         def job_status(self, job_name, job_id, previous_response=None):
             url = self.__get_url(self.JOB_STATUS)
-            headers = {"Content-Type": "application/x-www-form-urlencoded"}
+            headers = {'Content-Type': 'application/x-www-form-urlencoded'}
 
-            from_line = previous_response["jobstatus"]["last_log_line_nr"] \
+            from_line = previous_response['jobstatus']['last_log_line_nr'] \
                 if previous_response \
                 else 0
 
             payload = {
-                "name": job_name,
-                "id": job_id,
-                "xml": "Y",
-                "from": from_line
+                'name': job_name,
+                'id': job_id,
+                'xml': 'Y',
+                'from': from_line
             }
 
             rs = requests.post(url=url, headers=headers,
                                data=urlencode(payload), auth=self.__get_auth())
             if rs.status_code >= 400:
                 result = xmltodict.parse(rs.content)
-                raise AirflowException("{}: {}".format(
-                    result["webresult"]["result"],
-                    result["webresult"]["message"])
+                raise AirflowException('{}: {}'.format(
+                    result['webresult']['result'],
+                    result['webresult']['message'])
                 )
             else:
                 return xmltodict.parse(rs.content)
@@ -89,11 +92,11 @@ class PentahoCarteHook(BaseHook):
         def run_job(self, job_path, params=None):
             url = self.__get_url(self.RUN_JOB)
             args = {
-                "user": self.username,
-                "pass": self.password,
-                "rep": self.rep,
-                "job": job_path,
-                "level": "Debug"
+                'user': self.username,
+                'pass': self.password,
+                'rep': self.rep,
+                'job': job_path,
+                'level': 'Debug'
             }
 
             if params:
@@ -102,34 +105,34 @@ class PentahoCarteHook(BaseHook):
             rs = requests.get(url=url, params=args, auth=self.__get_auth())
             if rs.status_code >= 400:
                 result = xmltodict.parse(rs.content)
-                raise AirflowException("{}: {}".format(
-                    result["webresult"]["result"],
-                    result["webresult"]["message"])
+                raise AirflowException('{}: {}'.format(
+                    result['webresult']['result'],
+                    result['webresult']['message'])
                 )
             else:
                 return xmltodict.parse(rs.content)
 
         def trans_status(self, trans_name, previous_response=None):
             url = self.__get_url(self.TRANS_STATUS)
-            headers = {"Content-Type": "application/x-www-form-urlencoded"}
+            headers = {'Content-Type': 'application/x-www-form-urlencoded'}
 
-            from_line = previous_response["transstatus"]["last_log_line_nr"] \
+            from_line = previous_response['transstatus']['last_log_line_nr'] \
                 if previous_response \
                 else 0
 
             payload = {
-                "name": trans_name,
-                "xml": "Y",
-                "from": from_line
+                'name': trans_name,
+                'xml': 'Y',
+                'from': from_line
             }
 
             rs = requests.post(url=url, headers=headers,
                                data=urlencode(payload), auth=self.__get_auth())
             if rs.status_code >= 400:
                 result = xmltodict.parse(rs.content)
-                raise AirflowException("{}: {}".format(
-                    result["webresult"]["result"],
-                    result["webresult"]["message"])
+                raise AirflowException('{}: {}'.format(
+                    result['webresult']['result'],
+                    result['webresult']['message'])
                 )
             else:
                 return xmltodict.parse(rs.content)
@@ -137,11 +140,11 @@ class PentahoCarteHook(BaseHook):
         def run_trans(self, trans_path, params=None):
             url = self.__get_url(self.RUN_TRANS)
             args = {
-                "user": self.username,
-                "pass": self.password,
-                "rep": self.rep,
-                "trans": trans_path,
-                "level": "Debug"
+                'user': self.username,
+                'pass': self.password,
+                'rep': self.rep,
+                'trans': trans_path,
+                'level': 'Debug'
             }
 
             if params:
@@ -151,7 +154,7 @@ class PentahoCarteHook(BaseHook):
             if rs.status_code >= 400:
                 raise AirflowException(rs.content)
 
-    def __init__(self, conn_id="pdi_default", level='Basic', *args, **kwargs):
+    def __init__(self, *args, conn_id='pdi_default', level='Basic', **kwargs):
         super().__init__(*args, **kwargs)
         self.conn_id = conn_id
         self.level = level
@@ -168,13 +171,13 @@ class PentahoCarteHook(BaseHook):
             return self.pentaho_cli
 
         self.pentaho_cli = self.PentahoCarteClient(
-            self.connection.host,
-            self.connection.port,
-            self.extras.get('rep'),
-            self.connection.login,
-            self.connection.password,
-            self.extras.get('carte_username'),
-            self.extras.get('carte_password'),
-            self.level)
+            host=self.connection.host,
+            port=self.connection.port,
+            rep=self.extras.get('rep'),
+            username=self.connection.login,
+            password=self.connection.password,
+            carte_username=self.extras.get('carte_username'),
+            carte_password=self.extras.get('carte_password'),
+            level=self.level)
 
         return self.pentaho_cli

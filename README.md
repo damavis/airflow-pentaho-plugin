@@ -6,7 +6,7 @@
 [![PyPI - Downloads](https://img.shields.io/pypi/dm/airflow-pentaho-plugin)](https://pypi.org/project/airflow-pentaho-plugin/)
 
 This plugins runs Jobs and Transformations through Carte servers.
-It allows to orchestrate a massive number of trans/jobs taking care 
+It allows to orchestrate a massive number of trans/jobs taking care
 of the dependencies between them, even between different instances.
 This is done by using `CarteJobOperator` and `CarteTransOperator`
 
@@ -24,7 +24,7 @@ both from repository and local XML files. For this approach, use
 
 The same setup process must be performed on webserver, scheduler
 and workers (that runs this tasks) to get it working. If you want to
-deploy specific workers to run this kind of tasks, see 
+deploy specific workers to run this kind of tasks, see
 [Queues](https://airflow.apache.org/docs/stable/concepts.html#queues),
 in **Airflow** *Concepts* section.
 
@@ -81,7 +81,7 @@ it is an example of `CarteJobOperator` usage.
 # For versions before 2.0
 # from airflow.operators.pentaho import CarteJobOperator
 
-from airflow_pentaho.operators.CarteJobOperator import CarteJobOperator
+from airflow_pentaho.operators.carte_job import CarteJobOperator
 
 # ... #
 
@@ -109,7 +109,7 @@ the argument `date` as input parameter. Lets define the task using the
 # For versions before 2.0
 # from airflow.operators.pentaho import KitchenOperator
 
-from airflow_pentaho.operators.KitchenOperator import KitchenOperator
+from airflow_pentaho.operators.kitchen import KitchenOperator
 
 # ... #
 
@@ -137,7 +137,7 @@ servers. Here it is an example of `CarteTransOperator` usage.
 # For versions before 2.0
 # from airflow.operators.pentaho import CarteTransOperator
 
-from airflow_pentaho.operators.CarteTransOperator import CarteTransOperator
+from airflow_pentaho.operators.carte_trans import CarteTransOperator
 
 # ... #
 
@@ -165,7 +165,7 @@ determines the file to be cleaned.
 # For versions before 2.0
 # from airflow.operators.pentaho import PanOperator
 
-from airflow_pentaho.operators.PanOperator import PanOperator
+from airflow_pentaho.operators.pan import PanOperator
 
 # ... #
 

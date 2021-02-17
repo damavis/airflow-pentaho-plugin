@@ -17,7 +17,7 @@
 from airflow import settings
 from airflow.models import Connection
 
-from tests.TestBase import TestBase
+from tests import TestBase
 
 
 class OperatorTestBase(TestBase):
@@ -27,7 +27,7 @@ class OperatorTestBase(TestBase):
     @classmethod
     def setUpClass(cls):
         super().setUpClass()
-        conn = Connection(conn_id="pdi_default")
+        conn = Connection(conn_id='pdi_default')
 
         extra = """
         {
@@ -43,12 +43,12 @@ class OperatorTestBase(TestBase):
         try:
             if not conn.login:
                 conn = Connection(
-                    conn_type="pentaho",
-                    conn_id="pdi_default",
-                    host="localhost",
-                    port="8880",
-                    login="admin",
-                    password="password",
+                    conn_type='pentaho',
+                    conn_id='pdi_default',
+                    host='localhost',
+                    port='8880',
+                    login='admin',
+                    password='password',
                     extra=extra
                 )
                 session.add(conn)

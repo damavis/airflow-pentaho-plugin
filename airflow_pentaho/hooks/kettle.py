@@ -12,6 +12,7 @@
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 # See the License for the specific language governing permissions and
 # limitations under the License.
+"""Kettle hook module"""
 
 
 import platform
@@ -21,8 +22,10 @@ from airflow.hooks.base import BaseHook
 
 
 class PentahoHook(BaseHook):
+    """Implementation hook for interact with Kettle commands"""
 
     class PentahoClient:
+        """Implementation for Commands calls"""
 
         def __init__(
                 self,
@@ -41,9 +44,9 @@ class PentahoHook(BaseHook):
             self.system = system
 
         def _get_tool_command_template(self):
-            if self.system == "Windows":
-                return "{}\\{}.bat"
-            elif self.system == "Linux":
+            if self.system == 'Windows':
+                return '{}\\{}.bat'
+            elif self.system == 'Linux':
                 return """{}/{}.sh"""
             else:
                 raise AirflowException(
@@ -55,10 +58,10 @@ class PentahoHook(BaseHook):
                                                             command)
 
         def _get_argument_template(self):
-            if self.system == "Windows":
-                return "/{}:{}"
-            elif self.system == "Linux":
-                return "-{}={}"
+            if self.system == 'Windows':
+                return '/{}:{}'
+            elif self.system == 'Linux':
+                return '-{}={}'
             else:
                 raise AirflowException(
                     "Unsupported platform for airflow_pentaho: '{}'"
@@ -69,10 +72,10 @@ class PentahoHook(BaseHook):
 
         def _build_connection_arguments(self):
             line = list()
-            line.append(self._build_argument("rep", self.rep))
-            line.append(self._build_argument("user", self.username))
-            line.append(self._build_argument("pass", self.password))
-            return " ".join(line)
+            line.append(self._build_argument('rep', self.rep))
+            line.append(self._build_argument('user', self.username))
+            line.append(self._build_argument('pass', self.password))
+            return ' '.join(line)
 
         def build_command(self, command, arguments):
             line = [self._build_tool_command(command),
@@ -80,10 +83,10 @@ class PentahoHook(BaseHook):
             for k, val in arguments.items():
                 line.append(self._build_argument(k, val))
 
-            command_line = " ".join(line)
+            command_line = ' '.join(line)
             return command_line
 
-    def __init__(self, conn_id="pdi_default"):
+    def __init__(self, conn_id='pdi_default'):
         self.conn_id = conn_id
         self.connection = self.get_connection(conn_id)
         self.extras = self.connection.extra_dejson

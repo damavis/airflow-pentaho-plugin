@@ -12,19 +12,20 @@
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 # See the License for the specific language governing permissions and
 # limitations under the License.
+"""Plugin"""
 
 
 from airflow.plugins_manager import AirflowPlugin
-from airflow_pentaho.hooks.PentahoCarteHook import PentahoCarteHook
-from airflow_pentaho.hooks.PentahoHook import PentahoHook
-from airflow_pentaho.operators.CarteJobOperator import CarteJobOperator
-from airflow_pentaho.operators.CarteTransOperator import CarteTransOperator
-from airflow_pentaho.operators.KitchenOperator import KitchenOperator
-from airflow_pentaho.operators.PanOperator import PanOperator
+from airflow_pentaho.hooks.carte import PentahoCarteHook
+from airflow_pentaho.hooks.kettle import PentahoHook
+from airflow_pentaho.operators.carte import CarteJobOperator
+from airflow_pentaho.operators.carte import CarteTransOperator
+from airflow_pentaho.operators.kettle import KitchenOperator
+from airflow_pentaho.operators.kettle import PanOperator
 
 
 class PentahoPlugin(AirflowPlugin):
-    name = "airflow_pentaho"
+    name = 'airflow_pentaho'
     operators = [KitchenOperator, PanOperator,
                  CarteJobOperator, CarteTransOperator]
     hooks = [PentahoHook, PentahoCarteHook]

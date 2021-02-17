@@ -17,30 +17,30 @@
 from airflow import settings  # noqa: F401
 from airflow import AirflowException
 
-from airflow_pentaho.operators.CarteJobOperator import CarteJobOperator
-from tests.OperatorTestBase import OperatorTestBase
+from airflow_pentaho.operators.carte import CarteJobOperator
+from tests.operator_test_base import OperatorTestBase
 
 
 class TestCarteJobOperator(OperatorTestBase):
 
     def test_execute(self):
         op = CarteJobOperator(
-            task_id="test_carte_job_operator",
-            job="/home/bi/test_job",
-            level="Debug")
+            task_id='test_carte_job_operator',
+            job='/home/bi/test_job',
+            level='Debug')
 
         op.execute(context={})
         self.assertTrue(True)
 
     def test_execute_non_existent_job(self):
         op = CarteJobOperator(
-            task_id="test_carte_job_operator",
-            job="/home/bi/unknown_job",
-            level="Debug")
+            task_id='test_carte_job_operator',
+            job='/home/bi/unknown_job',
+            level='Debug')
 
         with self.assertRaises(AirflowException) as context:
             op.execute(context={})
 
         print(context.exception)
-        self.assertTrue("ERROR: Unable to find job [unknown_job]"
+        self.assertTrue('ERROR: Unable to find job [unknown_job]'
                         in str(context.exception))

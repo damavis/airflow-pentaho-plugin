@@ -12,6 +12,7 @@
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 # See the License for the specific language governing permissions and
 # limitations under the License.
+"""Setup"""
 
 
 from setuptools import find_packages, setup
@@ -22,7 +23,7 @@ with open(path.join(this_directory, 'README.md'), encoding='utf-8') as f:
     long_description = f.read()
 
 setup(
-    name="airflow-pentaho-plugin",
+    name='airflow-pentaho-plugin',
     version_format='{tag}.post{commitcount}',
     license='Apache 2.0',
     setup_requires=['setuptools-git-version'],
@@ -43,10 +44,10 @@ setup(
         'Programming Language :: Python :: 3'
     ],
     test_requires=[
-        "apache-airflow >= 2.0.0"
+        'apache-airflow >= 2.0.0'
     ],
     install_requires=[
-      "xmltodict >= 0.10.0",
+      'xmltodict >= 0.10.0',
     ],
     entry_points={
         'airflow.plugins': [

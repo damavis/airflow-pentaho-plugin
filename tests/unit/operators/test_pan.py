@@ -18,19 +18,19 @@ from unittest.mock import MagicMock
 
 from airflow import settings  # noqa: F401
 
-from airflow_pentaho.operators.KitchenOperator import KitchenOperator
-from tests.OperatorTestBase import OperatorTestBase
+from airflow_pentaho.operators.kettle import PanOperator
+from tests.operator_test_base import OperatorTestBase
 
 
-class TestKitchenOperator(OperatorTestBase):
+class TestPanOperator(OperatorTestBase):
 
     def test_return_value(self):
-        op = KitchenOperator(
-            task_id="test_kitchen_operator",
+        op = PanOperator(
+            task_id='test_mocked_pan_operator',
             xcom_push=True,
-            directory="/home",
-            job="test_job",
-            params={"a": "1"})
+            directory='/home',
+            trans='test_trans',
+            params={'a': '1'})
 
         mocked_cli = MagicMock()
         mocked_cli.build_command.return_value = \
@@ -38,4 +38,4 @@ class TestKitchenOperator(OperatorTestBase):
         op._get_pentaho_client = MagicMock(return_value=mocked_cli)
 
         return_value = op.execute(context={})
-        self.assertTrue("This is a mocked result" in return_value)
+        self.assertTrue('This is a mocked result' in return_value)

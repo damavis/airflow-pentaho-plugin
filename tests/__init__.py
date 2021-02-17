@@ -12,3 +12,13 @@
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 # See the License for the specific language governing permissions and
 # limitations under the License.
+
+import os
+from unittest import TestCase
+
+import tests
+
+
+class TestBase(TestCase):
+
+    TESTS_PATH = os.path.dirname(os.path.abspath(tests.__file__))

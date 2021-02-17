@@ -16,30 +16,30 @@
 
 from airflow import settings  # noqa: F401
 
-from airflow_pentaho.operators.KitchenOperator import KitchenOperator
-from tests.OperatorTestBase import OperatorTestBase
+from airflow_pentaho.operators.kettle import KitchenOperator
+from tests.operator_test_base import OperatorTestBase
 
 
 class TestKitchenOperator(OperatorTestBase):
 
     def test_return_value(self):
         op = KitchenOperator(
-            task_id="test_kitchen_operator",
+            task_id='test_kitchen_operator',
             xcom_push=True,
-            directory="/home/test",
-            job="test_job",
-            params={"a": "1"})
+            directory='/home/test',
+            job='test_job',
+            params={'a': '1'})
 
         return_value = op.execute(context={})
-        self.assertTrue("Kitchen - Processing ended" in return_value)
+        self.assertTrue('Kitchen - Processing ended' in return_value)
 
     def test_return_value_file(self):
         op = KitchenOperator(
-            task_id="test_kitchen_operator",
+            task_id='test_kitchen_operator',
             xcom_push=True,
-            file=self.TESTS_PATH + "/assets/test_job.kjb",
-            job="test_job",
-            params={"a": "1"})
+            file=self.TESTS_PATH + '/assets/test_job.kjb',
+            job='test_job',
+            params={'a': '1'})
 
         return_value = op.execute(context={})
-        self.assertTrue("Kitchen - Processing ended" in return_value)
+        self.assertTrue('Kitchen - Processing ended' in return_value)

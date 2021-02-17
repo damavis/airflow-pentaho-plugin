@@ -1,0 +1,35 @@
+repos:
+-   repo: https://github.com/pre-commit/pre-commit-hooks
+    rev: v3.4.0
+    hooks:
+    -   id: trailing-whitespace
+    -   id: check-ast
+    -   id: check-case-conflict
+    -   id: check-docstring-first
+    -   id: check-merge-conflict
+    -   id: check-symlinks
+    -   id: check-yaml
+    -   id: debug-statements
+    -   id: destroyed-symlinks
+    -   id: double-quote-string-fixer
+    -   id: end-of-file-fixer
+    -   id: fix-encoding-pragma
+    -   id: double-quote-string-fixer
+    -   id: mixed-line-ending
+    -   id: trailing-whitespace
+-   repo: https://gitlab.com/pycqa/flake8
+    rev: 3.7.9
+    hooks:
+    -   id: flake8
+        additional_dependencies: [flake8-typing-imports==1.9.0]
+-   repo: https://github.com/pre-commit/mirrors-pylint
+    rev: ''  # Use the sha / tag you want to point at
+    hooks:
+    -   id: pylint
+        exclude: tests
+-   repo: local
+    hooks:
+    -   id: pytest
+        language: system
+        name: Pytest
+        entry: 'scripts/test.sh'

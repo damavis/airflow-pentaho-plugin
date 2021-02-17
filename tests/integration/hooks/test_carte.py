@@ -17,15 +17,15 @@
 import time
 from unittest import TestCase
 
-from hooks.PentahoCarteHook import PentahoCarteHook
+from airflow_pentaho.hooks.carte import PentahoCarteHook
 
-DEFAULT_HOST = "localhost"
+DEFAULT_HOST = 'localhost'
 DEFAULT_PORT = 8880
-DEFAULT_REP = "DEFAULT"
-DEFAULT_CARTE_USERNAME = "cluster"
-DEFAULT_CARTE_PASSWORD = "cluster"
-DEFAULT_REP_USERNAME = "admin"
-DEFAULT_REP_PASSWORD = "password"
+DEFAULT_REP = 'DEFAULT'
+DEFAULT_CARTE_USERNAME = 'cluster'
+DEFAULT_CARTE_PASSWORD = 'cluster'
+DEFAULT_REP_USERNAME = 'admin'
+DEFAULT_REP_PASSWORD = 'password'
 
 
 class TestPentahoCarteClient(TestCase):
@@ -41,23 +41,23 @@ class TestPentahoCarteClient(TestCase):
 
     def test_run_job_and_wait(self):
         cli = self._get_cli()
-        rs = cli.run_job("/home/bi/test_job")
-        job_id = rs["webresult"]["id"]
+        rs = cli.run_job('/home/bi/test_job')
+        job_id = rs['webresult']['id']
 
         rs = None
-        while not rs or rs["jobstatus"]["status_desc"] != "Finished":
-            rs = cli.job_status("test_job", job_id, rs)
+        while not rs or rs['jobstatus']['status_desc'] != 'Finished':
+            rs = cli.job_status('test_job', job_id, rs)
             time.sleep(5)
 
-        self.assertTrue("result" in rs["jobstatus"])
+        self.assertTrue('result' in rs['jobstatus'])
 
     def test_run_trans_and_wait(self):
         cli = self._get_cli()
-        cli.run_trans("/home/bi/test_trans")
+        cli.run_trans('/home/bi/test_trans')
 
         rs = None
-        while not rs or rs["transstatus"]["status_desc"] != "Finished":
-            rs = cli.trans_status("test_trans", rs)
+        while not rs or rs['transstatus']['status_desc'] != 'Finished':
+            rs = cli.trans_status('test_trans', rs)
             time.sleep(5)
 
-        self.assertTrue("result" in rs["transstatus"])
+        self.assertTrue('result' in rs['transstatus'])

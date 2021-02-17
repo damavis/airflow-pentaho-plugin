@@ -18,32 +18,32 @@ import unittest
 
 from airflow import settings  # noqa: F401
 
-from airflow_pentaho.operators.PanOperator import PanOperator
-from tests.OperatorTestBase import OperatorTestBase
+from airflow_pentaho.operators.kettle import PanOperator
+from tests.operator_test_base import OperatorTestBase
 
 
 class TestPanOperator(OperatorTestBase):
 
     def test_return_value(self):
         op = PanOperator(
-            task_id="test_pan_operator",
+            task_id='test_pan_operator',
             xcom_push=True,
-            directory="/home/test",
-            trans="test_trans",
-            params={"a": "1"})
+            directory='/home/test',
+            trans='test_trans',
+            params={'a': '1'})
 
         return_value = op.execute(context={})
-        self.assertTrue("ended successfully" in return_value)
+        self.assertTrue('ended successfully' in return_value)
 
     @unittest.expectedFailure  # Transformation XML is not valid, error
     def test_return_value_file(self):
         op = PanOperator(
-            task_id="test_pan_operator",
+            task_id='test_pan_operator',
             xcom_push=True,
-            file=self.TESTS_PATH + "/assets/test_trans.kjb",
-            trans="test_trans",
+            file=self.TESTS_PATH + '/assets/test_trans.kjb',
+            trans='test_trans',
             safemode=True,
-            params={"a": "1"})
+            params={'a': '1'})
 
         return_value = op.execute(context={})
-        self.assertTrue("ended successfully" in return_value)
+        self.assertTrue('ended successfully' in return_value)
