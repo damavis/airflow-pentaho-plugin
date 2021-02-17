@@ -49,6 +49,8 @@ class PentahoCarteHook(BaseHook):
                 **kwargs):
             super().__init__(*args, **kwargs)
             self.host = host
+            if not self.host.startswith('http'):
+                self.host = 'http://{}'.format(self.host)
             self.port = port
             self.rep = rep
             self.username = username
@@ -57,8 +59,8 @@ class PentahoCarteHook(BaseHook):
             self.carte_password = carte_password
             self.level = level
 
-        def __get_url(self, method):
-            return 'http://{}:{}{}'.format(self.host, self.port, method)
+        def __get_url(self, endpoint):
+            return '{}:{}{}'.format(self.host, self.port, endpoint)
 
         def __get_auth(self):
             return HTTPBasicAuth(self.carte_username, self.carte_password)

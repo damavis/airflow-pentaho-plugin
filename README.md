@@ -42,8 +42,8 @@ Then, a new connection needs to be added to Airflow Connections, to do this,
 go to Airflow web UI, and click on `Admin -> Connections` on the top menu.
 Now, click on `Create` tab.
 
-Enter the **Conn Id**, this plugin uses `pdi_default` by default, the username
-and the password for your Pentaho Repository.
+Use HTTP connection type. Enter the **Conn Id**, this plugin uses `pdi_default`
+by default, the username and the password for your Pentaho Repository.
 
 At the bottom of the form, fill the **Extra** field with `pentaho_home`, the
 path where your pdi-ce is placed, and `rep`, the repository name for this
@@ -59,8 +59,8 @@ connection, using a json formatted string like it follows.
 ### Carte
 
 In order to use `CarteJobOperator`, the connection should be set different. Fill
-`host` and `port` for Carte hostname and port, `username` and `password` for PDI
-repository, and `extra` as it follows.
+`host` (including `http://` or `https://`) and `port` for Carte hostname and port,
+`username` and `password` for PDI repository, and `extra` as it follows.
 
 ```json
 {
