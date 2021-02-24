@@ -79,8 +79,9 @@ def mock_requests(**kwargs):
 class TestCarteTransOperator(OperatorTestBase):
     """Test Carte Transformation Operator"""
 
+    @mock.patch('requests.get', side_effect=mock_requests)
     @mock.patch('requests.post', side_effect=mock_requests)
-    def test_execute(self, mock_post):
+    def test_execute(self, mock_post, mock_get):  # pylint: disable=unused-argument
         op = CarteTransOperator(
             task_id='test_carte_trans_operator',
             trans='/home/bi/test_trans',
