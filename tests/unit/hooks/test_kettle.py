@@ -29,6 +29,7 @@ DEFAULT_PASSWORD = 'secret'
 
 
 class TestPentahoClient(TestCase):
+    """Testing Kettle commands (pan and kitchen) client."""
 
     def _get_linux_client(self):
         return PentahoHook.PentahoClient(DEFAULT_HOME,
@@ -46,12 +47,12 @@ class TestPentahoClient(TestCase):
 
     def test__get_tool_command_template_linux(self):
         cli = self._get_linux_client()
-        tmpl = cli._get_tool_command_template()
+        tmpl = cli._get_tool_command_template()  # pylint: disable=protected-access
         self.assertEqual(tmpl, '{}/{}.sh')
 
     def test__get_tool_command_template_windows(self):
         cli = self._get_windows_client()
-        tmpl = cli._get_tool_command_template()
+        tmpl = cli._get_tool_command_template()  # pylint: disable=protected-access
         self.assertEqual(tmpl, '{}\\{}.bat')
 
     def test__get_tool_command_template_unknown(self):
@@ -61,48 +62,48 @@ class TestPentahoClient(TestCase):
                                         DEFAULT_PASSWORD,
                                         '')
         with self.assertRaises(AirflowException) as context:
-            cli._get_tool_command_template()
+            cli._get_tool_command_template()  # pylint: disable=protected-access
 
         self.assertTrue('Unsupported platform'
                         in str(context.exception))
 
     def test__build_tool_command_linux(self):
         cli = self._get_linux_client()
-        tmpl = cli._build_tool_command('pan')
+        tmpl = cli._build_tool_command('pan')  # pylint: disable=protected-access
         self.assertEqual(tmpl, '/opt/pentaho/pan.sh')
 
     def test__build_tool_command_windows(self):
         cli = self._get_windows_client()
-        tmpl = cli._build_tool_command('pan')
+        tmpl = cli._build_tool_command('pan')  # pylint: disable=protected-access
         self.assertEqual(tmpl, 'C:\\pentaho\\pan.bat')  # noqa: W605
 
     def test__get_argument_template_linux(self):
         cli = self._get_linux_client()
-        tmpl = cli._get_argument_template()
+        tmpl = cli._get_argument_template()  # pylint: disable=protected-access
         self.assertEqual(tmpl, '-{}={}')
 
     def test__get_argument_template_windows(self):
         cli = self._get_windows_client()
-        tmpl = cli._get_argument_template()
+        tmpl = cli._get_argument_template()  # pylint: disable=protected-access
         self.assertEqual(tmpl, '/{}:{}')
 
     def test__build_argument_linux(self):
         cli = self._get_linux_client()
-        tmpl = cli._build_argument('key', 'value')
+        tmpl = cli._build_argument('key', 'value')  # pylint: disable=protected-access
         self.assertEqual(tmpl, '-key=value')
 
     def test__build_argument_windows(self):
         cli = self._get_windows_client()
-        tmpl = cli._build_argument('key', 'value')
+        tmpl = cli._build_argument('key', 'value')  # pylint: disable=protected-access
         self.assertEqual(tmpl, '/key:value')
 
     def test__build_connection_arguments(self):
         cli = self._get_linux_client()
-        tmpl = cli._build_connection_arguments()
+        tmpl = cli._build_connection_arguments()  # pylint: disable=protected-access
         self.assertEqual(tmpl, '-rep=test_repository -user=test -pass=secret')
 
     def test_build_command(self):
-        cli = self._get_linux_client()
+        cli = self._get_linux_client()  # pylint: disable=protected-access
         tmpl = cli.build_command('pan', {'trans': 'test'})
         self.assertEqual(tmpl, '/opt/pentaho/pan.sh -rep=test_repository'
                                ' -user=test -pass=secret'

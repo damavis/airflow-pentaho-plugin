@@ -14,13 +14,12 @@
 # limitations under the License.
 
 
-from airflow import settings  # noqa: F401
-
 from airflow_pentaho.operators.kettle import KitchenOperator
 from tests.operator_test_base import OperatorTestBase
 
 
 class TestKitchenOperator(OperatorTestBase):
+    """Test Kitchen Operator"""
 
     def test_return_value(self):
         op = KitchenOperator(

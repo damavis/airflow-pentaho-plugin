@@ -15,7 +15,6 @@
 
 
 from unittest import mock
-from airflow import settings  # noqa: F401
 
 from airflow_pentaho.operators.carte import CarteTransOperator
 from tests.operator_test_base import OperatorTestBase
@@ -78,10 +77,10 @@ def mock_requests(**kwargs):
 
 
 class TestCarteTransOperator(OperatorTestBase):
+    """Test Carte Transformation Operator"""
 
     @mock.patch('requests.post', side_effect=mock_requests)
-    @mock.patch('requests.get', side_effect=mock_requests)
-    def test_execute(self, mock_get, mock_post):
+    def test_execute(self, mock_post):
         op = CarteTransOperator(
             task_id='test_carte_trans_operator',
             trans='/home/bi/test_trans',

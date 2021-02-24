@@ -23,6 +23,10 @@ from tests.operator_test_base import OperatorTestBase
 
 
 class TestCompatibility(OperatorTestBase):
+    """
+    Testing deprecated operators to keep compatibility.
+    Will be removed in version 2.x.
+    """
 
     def test_execute(self):
         op1 = KitchenOperator(task_id='test_kitchen_operator',

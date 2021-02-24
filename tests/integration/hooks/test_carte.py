@@ -29,6 +29,7 @@ DEFAULT_REP_PASSWORD = 'password'
 
 
 class TestPentahoCarteClient(TestCase):
+    """Test Carte API REST Client"""
 
     def _get_cli(self):
         return PentahoCarteHook.PentahoCarteClient(DEFAULT_HOST,
@@ -44,7 +45,7 @@ class TestPentahoCarteClient(TestCase):
         rs = cli.run_job('/home/bi/test_job')
         job_id = rs['webresult']['id']
 
-        rs = None
+        rs = {}
         while not rs or rs['jobstatus']['status_desc'] != 'Finished':
             rs = cli.job_status('test_job', job_id, rs)
             time.sleep(5)
@@ -55,7 +56,7 @@ class TestPentahoCarteClient(TestCase):
         cli = self._get_cli()
         cli.run_trans('/home/bi/test_trans')
 
-        rs = None
+        rs = {}
         while not rs or rs['transstatus']['status_desc'] != 'Finished':
             rs = cli.trans_status('test_trans', rs)
             time.sleep(5)

@@ -21,6 +21,7 @@ from tests import TestBase
 
 
 class OperatorTestBase(TestBase):
+    """Operator Test Base"""
 
     conn_id = None
 
@@ -46,13 +47,13 @@ class OperatorTestBase(TestBase):
                     conn_type='pentaho',
                     conn_id='pdi_default',
                     host='localhost',
-                    port='8880',
+                    port=8880,
                     login='admin',
                     password='password',
                     extra=extra
                 )
                 session.add(conn)
                 session.commit()
-        except Exception as ex:
+        except Exception as ex:  # pylint: disable=broad-except
             print(ex)
             session.rollback()

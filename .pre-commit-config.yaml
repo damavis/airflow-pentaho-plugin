@@ -26,4 +26,3 @@ repos:
     rev: 'v2.6.0'
     hooks:
     -   id: pylint
-        exclude: tests

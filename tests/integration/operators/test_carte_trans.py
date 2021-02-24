@@ -14,7 +14,6 @@
 # limitations under the License.
 
 
-from airflow import settings  # noqa: F401
 from airflow import AirflowException
 
 from airflow_pentaho.operators.carte import CarteTransOperator
@@ -22,6 +21,7 @@ from tests.operator_test_base import OperatorTestBase
 
 
 class TestCarteTransOperator(OperatorTestBase):
+    """Test Carte Transformation Operator"""
 
     def test_execute(self):
         op = CarteTransOperator(
@@ -30,7 +30,10 @@ class TestCarteTransOperator(OperatorTestBase):
             level='Debug')
 
         op.execute(context={})
-        self.assertTrue(True)
+        try:
+            op.execute(context={})
+        except Exception as ex:
+            raise ex
 
     def test_execute_non_existent_job(self):
         op = CarteTransOperator(

@@ -16,13 +16,12 @@
 
 import unittest
 
-from airflow import settings  # noqa: F401
-
 from airflow_pentaho.operators.kettle import PanOperator
 from tests.operator_test_base import OperatorTestBase
 
 
 class TestPanOperator(OperatorTestBase):
+    """Testing Pan Operator"""
 
     def test_return_value(self):
         op = PanOperator(
