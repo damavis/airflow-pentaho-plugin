@@ -42,7 +42,7 @@ class PDIBaseOperator(BaseOperator):
         self.sub_process = None
         self.xcom_push_flag = xcom_push
         self.command_line = None
-        self.codes_map: dict
+        self.codes_map: dict = dict()
 
     def _run_command(self):
 
