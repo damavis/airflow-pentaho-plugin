@@ -9,6 +9,7 @@ python:
   - "3.9"
 
 install:
+  - pip install pip --upgrade
   - pip install -r requirements.txt
   - pip install pre-commit
   - airflow db init
