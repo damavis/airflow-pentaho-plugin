@@ -3,7 +3,10 @@ language: python
 dist: focal
 
 python:
+  - "3.6"
   - "3.7"
+  - "3.8"
+  - "3.9"
 
 install:
   - pip install -r requirements.txt
@@ -13,6 +16,7 @@ install:
 script:
   - pre-commit run --all-files
   - ./scripts/test.sh
+  - pip install .  # Check package setup
 
 deploy:
   provider: pypi
