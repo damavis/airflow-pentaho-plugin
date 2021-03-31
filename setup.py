@@ -44,7 +44,7 @@ setup(
         'Programming Language :: Python :: 3'
     ],
     test_requires=[
-        'apache-airflow >= 2.0.0'
+        'apache-airflow >= 2.0.1'
     ],
     install_requires=[
       'xmltodict >= 0.10.0',

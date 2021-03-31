@@ -1,8 +1,7 @@
-apache-airflow==2.0.0
+apache-airflow==2.0.1
 xmltodict
 
 # dev
 pytest
 pytest-cov
-flake8
 twine
