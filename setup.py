@@ -32,7 +32,7 @@ setup(
     long_description=long_description,
     long_description_content_type='text/markdown',
     url='https://github.com/damavis/airflow-pentaho-plugin',
-    python_requires='>=3.6',
+    python_requires='>=3',
     test_suite='nose.collector',
     zip_safe=False,
     include_package_data=True,
