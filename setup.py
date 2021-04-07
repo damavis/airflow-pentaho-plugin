@@ -40,10 +40,9 @@ setup(
     classifiers=[
         'Environment :: Plugins',
         'License :: OSI Approved :: Apache Software License',
-        'Operating System :: Posix',
         'Operating System :: Unix',
         'Operating System :: MacOS',
-        'Operating System :: Microsoft :: MacOS',
+        'Operating System :: Microsoft :: Windows',
         'Programming Language :: Python :: 3.6',
         'Programming Language :: Python :: 3.7',
         'Programming Language :: Python :: 3.8',
