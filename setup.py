@@ -52,7 +52,7 @@ setup(
         'apache-airflow >= 2.0.1'
     ],
     install_requires=[
-      'xmltodict >= 0.10.0',
+      'xmltodict >= 0.12.0',
     ],
     entry_points={
         'airflow.plugins': [
