@@ -77,11 +77,13 @@ class PentahoHook(BaseHook):
             line.append(self._build_argument('pass', self.password))
             return ' '.join(line)
 
-        def build_command(self, command, arguments):
+        def build_command(self, command, arguments, params):
             line = [self._build_tool_command(command),
                     self._build_connection_arguments()]
             for k, val in arguments.items():
                 line.append(self._build_argument(k, val))
+            for k, val in params.items():
+                line.append(self._build_argument(f'param:{k}', val))
 
             command_line = ' '.join(line)
             return command_line

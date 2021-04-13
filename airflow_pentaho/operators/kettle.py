@@ -196,12 +196,11 @@ class PanOperator(PDIBaseOperator):
             'maxloglines': str(self.maxloglines),
             'maxlogtimeout': str(self.maxlogtimeout)
         }
-        arguments.update(self.params)
         if self.file:
             arguments.update({'file': self.file})
             arguments.update({'norep': 'true'})
 
-        self.command_line = conn.build_command('pan', arguments)
+        self.command_line = conn.build_command('pan', arguments, self.params)
         output = self._run_command()
 
         if self.xcom_push_flag:
@@ -297,12 +296,11 @@ class KitchenOperator(PDIBaseOperator):
             'maxloglines': str(self.maxloglines),
             'maxlogtimeout': str(self.maxlogtimeout)
         }
-        arguments.update(self.params)
         if self.file:
             arguments.update({'file': self.file})
             arguments.update({'norep': 'true'})
 
-        self.command_line = conn.build_command('kitchen', arguments)
+        self.command_line = conn.build_command('kitchen', arguments, self.params)
         output = self._run_command()
 
         if self.xcom_push_flag:

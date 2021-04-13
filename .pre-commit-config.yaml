@@ -1,23 +1,30 @@
 repos:
--   repo: https://github.com/pre-commit/pre-commit-hooks
+  - repo: https://github.com/pre-commit/pre-commit-hooks
     rev: v3.4.0
     hooks:
-    -   id: trailing-whitespace
-    -   id: check-ast
-    -   id: check-case-conflict
-    -   id: check-docstring-first
-    -   id: check-merge-conflict
-    -   id: check-symlinks
-    -   id: check-yaml
-    -   id: debug-statements
-    -   id: destroyed-symlinks
-    -   id: double-quote-string-fixer
-    -   id: end-of-file-fixer
-    -   id: fix-encoding-pragma
-    -   id: double-quote-string-fixer
-    -   id: mixed-line-ending
-    -   id: trailing-whitespace
--   repo: https://github.com/pre-commit/mirrors-pylint
+      - id: trailing-whitespace
+      - id: check-ast
+      - id: check-case-conflict
+      - id: check-docstring-first
+      - id: check-merge-conflict
+      - id: check-symlinks
+      - id: check-yaml
+      - id: debug-statements
+      - id: destroyed-symlinks
+      - id: double-quote-string-fixer
+      - id: end-of-file-fixer
+      - id: fix-encoding-pragma
+      - id: double-quote-string-fixer
+      - id: mixed-line-ending
+      - id: trailing-whitespace
+  - repo: https://github.com/pre-commit/mirrors-pylint
     rev: 'v2.6.0'
     hooks:
-    -   id: pylint
+      - id: pylint
+  - repo: local
+    hooks:
+      - id: test
+        name: Testing
+        pass_filenames: false
+        language: system
+        entry: pytest --cov=airflow_pentaho tests/unit

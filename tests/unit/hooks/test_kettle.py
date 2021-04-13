@@ -104,7 +104,8 @@ class TestPentahoClient(TestCase):
 
     def test_build_command(self):
         cli = self._get_linux_client()  # pylint: disable=protected-access
-        tmpl = cli.build_command('pan', {'trans': 'test'})
+        tmpl = cli.build_command('pan', {'trans': 'test'}, {'version': '3'})
         self.assertEqual(tmpl, '/opt/pentaho/pan.sh -rep=test_repository'
                                ' -user=test -pass=secret'
-                               ' -trans=test')
+                               ' -trans=test'
+                               ' -param:version=3')

@@ -16,7 +16,6 @@ install:
 
 script:
   - pre-commit run --all-files
-  - ./scripts/test.sh
   - pip install .  # Check package setup
 
 jobs:
