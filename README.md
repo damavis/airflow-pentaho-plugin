@@ -79,7 +79,7 @@ it is an example of `CarteJobOperator` usage.
 
 ```python
 # For versions before 2.0
-# from airflow.operators.pentaho import CarteJobOperator
+# from airflow.operators.airflow_pentaho import CarteJobOperator
 
 from airflow_pentaho.operators.carte import CarteJobOperator
 
@@ -107,7 +107,7 @@ the argument `date` as input parameter. Lets define the task using the
 
 ```python
 # For versions before 2.0
-# from airflow.operators.pentaho import KitchenOperator
+# from airflow.operators.airflow_pentaho import KitchenOperator
 
 from airflow_pentaho.operators.kettle import KitchenOperator
 
@@ -135,7 +135,7 @@ servers. Here it is an example of `CarteTransOperator` usage.
 
 ```python
 # For versions before 2.0
-# from airflow.operators.pentaho import CarteTransOperator
+# from airflow.operators.airflow_pentaho import CarteTransOperator
 
 from airflow_pentaho.operators.carte import CarteTransOperator
 
@@ -163,7 +163,7 @@ determines the file to be cleaned.
 
 ```python
 # For versions before 2.0
-# from airflow.operators.pentaho import PanOperator
+# from airflow.operators.airflow_pentaho import PanOperator
 
 from airflow_pentaho.operators.kettle import PanOperator
 
