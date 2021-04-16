@@ -17,11 +17,18 @@
 
 import requests
 import xmltodict
+from packaging import version
 from urllib.parse import urlencode
 
-from airflow import AirflowException
-from airflow.hooks.base import BaseHook
 from requests.auth import HTTPBasicAuth
+
+import airflow
+
+from airflow import AirflowException
+if version.parse(airflow.__version__) >= version.parse('2.0'):
+    from airflow.hooks.base import BaseHook
+else:
+    from airflow.hooks.base_hook import BaseHook
 
 
 class PentahoCarteHook(BaseHook):
@@ -156,8 +163,8 @@ class PentahoCarteHook(BaseHook):
             if rs.status_code >= 400:
                 raise AirflowException(rs.content)
 
-    def __init__(self, *args, conn_id='pdi_default', level='Basic', **kwargs):
-        super().__init__(*args, **kwargs)
+    def __init__(self, conn_id='pdi_default', level='Basic'):
+        super().__init__(conn_id)
         self.conn_id = conn_id
         self.level = level
         self.connection = self.get_connection(conn_id)

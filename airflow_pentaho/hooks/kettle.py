@@ -16,9 +16,15 @@
 
 
 import platform
+from packaging import version
 
+import airflow
 from airflow import AirflowException
-from airflow.hooks.base import BaseHook
+
+if version.parse(airflow.__version__) >= version.parse('2.0'):
+    from airflow.hooks.base import BaseHook
+else:
+    from airflow.hooks.base_hook import BaseHook
 
 
 class PentahoHook(BaseHook):
@@ -88,7 +94,8 @@ class PentahoHook(BaseHook):
             command_line = ' '.join(line)
             return command_line
 
-    def __init__(self, conn_id='pdi_default'):
+    def __init__(self, source, conn_id='pdi_default'):
+        super().__init__(source)
         self.conn_id = conn_id
         self.connection = self.get_connection(conn_id)
         self.extras = self.connection.extra_dejson
