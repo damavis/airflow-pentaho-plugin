@@ -1,5 +1,16 @@
 # Changelog
 
+## airflow-pentaho-plugin v1.0.6 - 2021-04-16
+
+- Backported to Airflow version 1.10.x.
+- Parameters format for kettle Operators fixed.
+- Testing on pre-commit hook added.
+- xmldtodict bumped from 0.10.0 to 0.12.0.
+- Pypi classifiers fixed.
+- Style fixes.
+- Add CI/CD testing for python 3.6, 3.7, 3.8 and 3.9.
+- Pinning version of SQLAchemy<1.4,>=1.3.18.
+
 ## airflow-pentaho-plugin v1.0.1 - 2021-02-17
 
 ### Deprecations
