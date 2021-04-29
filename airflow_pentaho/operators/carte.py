@@ -29,8 +29,8 @@ from airflow_pentaho.hooks.carte import PentahoCarteHook
 class CarteBaseOperator(BaseOperator):
     """Carte Base Operator"""
 
-    FINISHED_STATUSES = ["Finished"]
-    ERRORS_STATUSES = ["Finished (with errors)", "Stopped", "Stopped (with errors)"]
+    FINISHED_STATUSES = ['Finished']
+    ERRORS_STATUSES = ['Finished (with errors)', 'Stopped', 'Stopped (with errors)']
 
     DEFAULT_CONN_ID = 'pdi_default'
 
@@ -117,9 +117,9 @@ class CarteJobOperator(CarteBaseOperator):
             raise AirflowException(status['error_desc'])
 
         if status_desc in self.ERRORS_STATUSES:
-            self.log.error("%s: %s, with id %s", status["status_desc"],
+            self.log.error(self.LOG_TEMPLATE, status['status_desc'],
                            self.job, job_id)
-            raise AirflowException(status["status_desc"])
+            raise AirflowException(status['status_desc'])
 
 
 class CarteTransOperator(CarteBaseOperator):
