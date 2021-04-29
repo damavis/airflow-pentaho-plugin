@@ -30,7 +30,12 @@ class CarteBaseOperator(BaseOperator):
     """Carte Base Operator"""
 
     FINISHED_STATUSES = ['Finished']
-    ERRORS_STATUSES = ['Finished (with errors)', 'Stopped', 'Stopped (with errors)']
+    ERRORS_STATUSES = [
+        'Stopped',
+        'Finished (with errors)',
+        'Stopped (with errors)'
+    ]
+    END_STATUSES = FINISHED_STATUSES + ERRORS_STATUSES
 
     DEFAULT_CONN_ID = 'pdi_default'
 
@@ -99,7 +104,7 @@ class CarteJobOperator(CarteBaseOperator):
         status_job_rs = None
         status = None
         status_desc = None
-        while not status_job_rs or status_desc not in self.FINISHED_STATUSES + self.ERRORS_STATUSES:
+        while not status_job_rs or status_desc not in self.END_STATUSES:
             status_job_rs = conn.job_status(self._get_job_name(), job_id,
                                             status_job_rs)
             status = status_job_rs['jobstatus']
@@ -107,7 +112,7 @@ class CarteJobOperator(CarteBaseOperator):
             self.log.info(self.LOG_TEMPLATE, status_desc, self.job, job_id)
             self._log_logging_string(status['logging_string'])
 
-            if status_desc not in self.FINISHED_STATUSES + self.ERRORS_STATUSES:
+            if status_desc not in self.END_STATUSES:
                 self.log.info('Sleeping 5 seconds before ask again')
                 time.sleep(5)
 
