@@ -1,5 +1,9 @@
 # Changelog
 
+## airflow-pentaho-plugin v1.0.7 - 2021-04-29
+
+- Advanced statuses handling. (by [@IM-SIM](https://github.com/IM-SIM))
+
 ## airflow-pentaho-plugin v1.0.6 - 2021-04-16
 
 - Backported to Airflow version 1.10.x.
