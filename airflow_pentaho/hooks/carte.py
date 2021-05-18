@@ -105,7 +105,7 @@ class PentahoCarteHook(BaseHook):
                 'pass': self.password,
                 'rep': self.rep,
                 'job': job_path,
-                'level': 'Debug'
+                'level': self.level
             }
 
             if params:
@@ -153,7 +153,7 @@ class PentahoCarteHook(BaseHook):
                 'pass': self.password,
                 'rep': self.rep,
                 'trans': trans_path,
-                'level': 'Debug'
+                'level': self.level
             }
 
             if params:

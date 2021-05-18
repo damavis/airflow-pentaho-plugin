@@ -14,12 +14,11 @@
 # limitations under the License.
 
 
-import time
 from unittest import TestCase
 
 from airflow_pentaho.hooks.carte import PentahoCarteHook
 
-DEFAULT_HOST = 'localhost'
+DEFAULT_HOST = 'https://localhost'
 DEFAULT_PORT = 8880
 DEFAULT_REP = 'DEFAULT'
 DEFAULT_CARTE_USERNAME = 'cluster'
@@ -29,16 +28,7 @@ DEFAULT_REP_PASSWORD = 'password'
 
 
 class TestPentahoCarteClient(TestCase):
-    """Test Carte API REST Client"""
-
-    def _get_cli(self):
-        return PentahoCarteHook.PentahoCarteClient(DEFAULT_HOST,
-                                                   DEFAULT_PORT,
-                                                   DEFAULT_REP,
-                                                   DEFAULT_REP_USERNAME,
-                                                   DEFAULT_REP_PASSWORD,
-                                                   DEFAULT_CARTE_USERNAME,
-                                                   DEFAULT_CARTE_PASSWORD)
+    """Test Carte Client"""
 
     def test_cli_constructor(self):
         cli = PentahoCarteHook.PentahoCarteClient(DEFAULT_HOST,
@@ -58,26 +48,3 @@ class TestPentahoCarteClient(TestCase):
         self.assertEqual(cli.carte_password, DEFAULT_CARTE_PASSWORD)
         self.assertEqual(cli.host, DEFAULT_HOST)
         self.assertEqual(cli.level, 'Basic')
-
-    def test_run_job_and_wait(self):
-        cli = self._get_cli()
-        rs = cli.run_job('/home/bi/test_job')
-        job_id = rs['webresult']['id']
-
-        rs = {}
-        while not rs or rs['jobstatus']['status_desc'] != 'Finished':
-            rs = cli.job_status('test_job', job_id, rs)
-            time.sleep(5)
-
-        self.assertTrue('result' in rs['jobstatus'])
-
-    def test_run_trans_and_wait(self):
-        cli = self._get_cli()
-        cli.run_trans('/home/bi/test_trans')
-
-        rs = {}
-        while not rs or rs['transstatus']['status_desc'] != 'Finished':
-            rs = cli.trans_status('test_trans', rs)
-            time.sleep(5)
-
-        self.assertTrue('result' in rs['transstatus'])
