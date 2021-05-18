@@ -1,5 +1,9 @@
 # Changelog
 
+## airflow-pentaho-plugin v1.0.8 - 2021-05-18
+
+- Fixes Log Level Problem [#9](https://github.com/damavis/airflow-pentaho-plugin/issues/9)
+
 ## airflow-pentaho-plugin v1.0.7 - 2021-04-29
 
 - Advanced statuses handling. (by [@IM-SIM](https://github.com/IM-SIM))
