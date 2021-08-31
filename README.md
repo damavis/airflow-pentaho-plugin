@@ -1,6 +1,6 @@
 # Pentaho Airflow plugin
 
-[![Build Status](https://travis-ci.org/damavis/airflow-pentaho-plugin.svg?branch=master)](https://travis-ci.org/damavis/airflow-pentaho-plugin)
+[![Build Status](https://api.travis-ci.com/damavis/airflow-pentaho-plugin.svg?branch=master)](https://app.travis-ci.com/damavis/airflow-pentaho-plugin)
 [![codecov](https://codecov.io/gh/damavis/airflow-pentaho-plugin/branch/master/graph/badge.svg)](https://codecov.io/gh/damavis/airflow-pentaho-plugin)
 [![PyPI](https://img.shields.io/pypi/v/airflow-pentaho-plugin)](https://pypi.org/project/airflow-pentaho-plugin/)
 [![PyPI - Downloads](https://img.shields.io/pypi/dm/airflow-pentaho-plugin)](https://pypi.org/project/airflow-pentaho-plugin/)
