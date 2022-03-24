@@ -39,7 +39,7 @@ class CarteBaseOperator(BaseOperator):
 
     DEFAULT_CONN_ID = 'pdi_default'
 
-    template_fields = ('params',)
+    template_fields = ('task_params',)
 
     def _log_logging_string(self, raw_logging_string):
         logs = raw_logging_string
@@ -84,7 +84,7 @@ class CarteJobOperator(CarteBaseOperator):
             self.pdi_conn_id = self.DEFAULT_CONN_ID
         self.job = job
         self.level = level
-        self.params = params
+        self.task_params = params
 
     def _get_pentaho_carte_client(self):
         return PentahoCarteHook(conn_id=self.pdi_conn_id,
@@ -96,7 +96,7 @@ class CarteJobOperator(CarteBaseOperator):
     def execute(self, context):  # pylint: disable=unused-argument
         conn = self._get_pentaho_carte_client()
 
-        exec_job_rs = conn.run_job(self.job, self.params)
+        exec_job_rs = conn.run_job(self.job, self.task_params)
         message = exec_job_rs['webresult']['message']
         job_id = exec_job_rs['webresult']['id']
         self.log.info('%s: %s, with id %s', message, self.job, job_id)
@@ -159,7 +159,7 @@ class CarteTransOperator(CarteBaseOperator):
             self.pdi_conn_id = self.DEFAULT_CONN_ID
         self.trans = trans
         self.level = level
-        self.params = params
+        self.task_params = params
 
     def _get_pentaho_carte_client(self):
         return PentahoCarteHook(conn_id=self.pdi_conn_id,
@@ -171,7 +171,7 @@ class CarteTransOperator(CarteBaseOperator):
     def execute(self, context):  # pylint: disable=unused-argument
         conn = self._get_pentaho_carte_client()
 
-        conn.run_trans(self.trans, self.params)
+        conn.run_trans(self.trans, self.task_params)
         self.log.info('Executing {}'.format(self.trans))
 
         status_trans_rs = None

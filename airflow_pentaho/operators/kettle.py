@@ -119,7 +119,7 @@ class PanOperator(PDIBaseOperator):
         9: 'Command line usage printing'
     }
 
-    template_fields = ('params',)
+    template_fields = ('task_params',)
 
     def __init__(self,
                  trans,
@@ -176,7 +176,7 @@ class PanOperator(PDIBaseOperator):
         self.level = level
         self.logfile = logfile
         self.safemode = safemode
-        self.params = params
+        self.task_params = params
         self.maxloglines = maxloglines
         self.maxlogtimeout = maxlogtimeout
         self.codes_map = self.STATUS_CODES
@@ -220,7 +220,7 @@ class KitchenOperator(PDIBaseOperator):
         9: 'Command line usage printing'
     }
 
-    template_fields = ('params',)
+    template_fields = ('task_params',)
 
     def __init__(self,
                  job,
@@ -276,7 +276,7 @@ class KitchenOperator(PDIBaseOperator):
         self.level = level
         self.logfile = logfile
         self.safemode = safemode
-        self.params = params
+        self.task_params = params
         self.maxloglines = maxloglines
         self.maxlogtimeout = maxlogtimeout
         self.codes_map = self.STATUS_CODES
@@ -300,7 +300,7 @@ class KitchenOperator(PDIBaseOperator):
             arguments.update({'file': self.file})
             arguments.update({'norep': 'true'})
 
-        self.command_line = conn.build_command('kitchen', arguments, self.params)
+        self.command_line = conn.build_command('kitchen', arguments, self.task_params)
         output = self._run_command()
 
         if self.xcom_push_flag:
