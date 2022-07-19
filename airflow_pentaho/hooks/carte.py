@@ -164,7 +164,7 @@ class PentahoCarteHook(BaseHook):
                 raise AirflowException(rs.content)
 
     def __init__(self, conn_id='pdi_default', level='Basic'):
-        super().__init__(conn_id)
+        super().__init__()
         self.conn_id = conn_id
         self.level = level
         self.connection = self.get_connection(conn_id)

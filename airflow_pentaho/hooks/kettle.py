@@ -94,8 +94,8 @@ class PentahoHook(BaseHook):
             command_line = ' '.join(line)
             return command_line
 
-    def __init__(self, source, conn_id='pdi_default'):
-        super().__init__(source)
+    def __init__(self, conn_id='pdi_default'):
+        super().__init__()
         self.conn_id = conn_id
         self.connection = self.get_connection(conn_id)
         self.extras = self.connection.extra_dejson
