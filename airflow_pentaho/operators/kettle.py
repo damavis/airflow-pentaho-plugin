@@ -35,7 +35,7 @@ class PDIBaseOperator(BaseOperator):
 
     def __init__(
             self,
-            task_id,
+            task_id=None,
             xcom_push=False,
             **kwargs):
         super().__init__(task_id=task_id, **kwargs)
@@ -122,9 +122,9 @@ class PanOperator(PDIBaseOperator):
     template_fields = ('task_params',)
 
     def __init__(self,
-                 trans,
-                 params,
-                 *args,
+                 task_id=None,
+                 trans=None,
+                 params=None,
                  directory=None,
                  file=None,
                  pdi_conn_id=None,
@@ -165,7 +165,7 @@ class PanOperator(PDIBaseOperator):
             being kept internally by PDI. Set to 0 to keep all rows
             indefinitely (default)
         """
-        super().__init__(*args, **kwargs)
+        super().__init__(task_id=task_id, **kwargs)
 
         self.pdi_conn_id = pdi_conn_id
         if not self.pdi_conn_id:
@@ -223,9 +223,9 @@ class KitchenOperator(PDIBaseOperator):
     template_fields = ('task_params',)
 
     def __init__(self,
-                 job,
-                 params,
-                 *args,
+                 task_id=None,
+                 job=None,
+                 params=None,
                  directory=None,
                  file=None,
                  pdi_conn_id=None,
@@ -265,7 +265,7 @@ class KitchenOperator(PDIBaseOperator):
             being kept internally by PDI. Set to 0 to keep all rows
             indefinitely (default)
         """
-        super().__init__(*args, **kwargs)
+        super().__init__(task_id=task_id, **kwargs)
 
         self.pdi_conn_id = pdi_conn_id
         if not self.pdi_conn_id:
