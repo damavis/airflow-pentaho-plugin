@@ -59,8 +59,8 @@ class CarteJobOperator(CarteBaseOperator):
     LOG_TEMPLATE = '%s: %s, with id %s'
 
     def __init__(self,
-                 job,
                  *args,
+                 job=None,
                  params=None,
                  pdi_conn_id=None,
                  level='Basic',
@@ -133,8 +133,8 @@ class CarteTransOperator(CarteBaseOperator):
     LOG_TEMPLATE = '%s: %s'
 
     def __init__(self,
-                 trans,
                  *args,
+                 trans=None,
                  params=None,
                  pdi_conn_id=None,
                  level='Basic',
