@@ -9,8 +9,10 @@ python:
 #  - "3.7"
 
 install:
-  - pip install pip --upgrade
-  - pip install -r requirements.txt
+  - export AIRFLOW_VERSION=2.4.0
+  - export PYTHON_VERSION="$(python --version | cut -d " " -f 2 | cut -d "." -f 1-2)"
+  - export CONSTRAINT_URL="https://raw.githubusercontent.com/apache/airflow/constraints-${AIRFLOW_VERSION}/constraints-${PYTHON_VERSION}.txt"
+  - pip install "apache-airflow==${AIRFLOW_VERSION}" --constraint "${CONSTRAINT_URL}"
   - pip install pre-commit
   - airflow db init
 
