@@ -95,7 +95,10 @@ class PentahoHook(BaseHook):
             return command_line
 
     def __init__(self, conn_id='pdi_default'):
-        super().__init__()
+        if version.parse(airflow.__version__) >= version.parse('2.0'):
+            super().__init__()
+        else:
+            super().__init__(None)
         self.conn_id = conn_id
         self.connection = self.get_connection(conn_id)
         self.extras = self.connection.extra_dejson
