@@ -1,3 +1,4 @@
+xmltodict
 setuptools-git-version
 pytest
 pytest-cov
