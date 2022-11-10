@@ -16,6 +16,7 @@
 
 
 import base64
+import json
 import re
 import time
 import zlib
@@ -107,6 +108,10 @@ class CarteJobOperator(CarteBaseOperator):
         while not status_job_rs or status_desc not in self.END_STATUSES:
             status_job_rs = conn.job_status(self._get_job_name(), job_id,
                                             status_job_rs)
+            if 'jobstatus' not in status_job_rs:
+                raise AirflowException(
+                    'Unexpected server response: ' + json.dumps(status_job_rs))
+
             status = status_job_rs['jobstatus']
             status_desc = status['status_desc']
             self.log.info(self.LOG_TEMPLATE, status_desc, self.job, job_id)
@@ -180,6 +185,10 @@ class CarteTransOperator(CarteBaseOperator):
         while not status_trans_rs or status_desc not in self.FINISHED_STATUSES:
             status_trans_rs = conn.trans_status(self._get_trans_name(),
                                                 status_trans_rs)
+            if 'transstatus' not in status_trans_rs:
+                raise AirflowException(
+                    'Unexpected server response: ' + json.dumps(status_trans_rs))
+
             status = status_trans_rs['transstatus']
             status_desc = status['status_desc']
             self.log.info(self.LOG_TEMPLATE, status_desc, self.trans)
