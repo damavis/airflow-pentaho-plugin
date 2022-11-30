@@ -200,7 +200,7 @@ class PanOperator(PDIBaseOperator):
             arguments.update({'file': self.file})
             arguments.update({'norep': 'true'})
 
-        self.command_line = conn.build_command('pan', arguments, self.params)
+        self.command_line = conn.build_command('pan', arguments, self.task_params)
         output = self._run_command()
 
         if self.xcom_push_flag:
