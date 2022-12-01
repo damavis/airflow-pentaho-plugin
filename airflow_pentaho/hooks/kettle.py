@@ -88,9 +88,10 @@ class PentahoHook(BaseHook):
                     self._build_connection_arguments()]
             for k, val in arguments.items():
                 line.append(self._build_argument(k, val))
-            if params is not None:    
+            if params is not None:
                 for k, val in params.items():
-                    if version.parse(airflow.__version__) >= version.parse('2.2') and not (type(val) is str):
+                    if version.parse(airflow.__version__) >= version.parse('2.2') and \
+                            not isinstance(val, str):
                         line.append(self._build_argument(f'param:{k}', val.value))
                     else:
                         line.append(self._build_argument(f'param:{k}', val))
