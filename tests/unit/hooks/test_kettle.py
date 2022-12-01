@@ -22,7 +22,7 @@ from airflow import AirflowException
 from airflow_pentaho.hooks.kettle import PentahoHook
 
 if version.parse(airflow.__version__) >= version.parse('2.2'):
-    from airflow.models.param import Param
+    from airflow.models.param import Param  # pylint: disable=ungrouped-imports
 
 WINDOWS_PDI_HOME = 'C:\\pentaho'  # noqa: W605
 
@@ -117,7 +117,9 @@ class TestPentahoClient(TestCase):
     def test_params_command(self):
         cli = self._get_linux_client()
         if version.parse(airflow.__version__) >= version.parse('2.2'):
-            tmpl = cli.build_command('pan', {'trans': 'test'}, {'version': Param(5, type="integer", minimum=3)})
+            tmpl = cli.build_command('pan',
+                                     {'trans': 'test'},
+                                     {'version': Param(5, type='integer', minimum=3)})
         else:
             tmpl = cli.build_command('pan', {'trans': 'test'}, {'version': 5})
         self.assertEqual(tmpl, '/opt/pentaho/pan.sh -rep=test_repository'
