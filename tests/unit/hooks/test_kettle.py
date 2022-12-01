@@ -13,12 +13,16 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-
+from packaging import version
 from unittest import TestCase
 
+import airflow
 from airflow import AirflowException
 
 from airflow_pentaho.hooks.kettle import PentahoHook
+
+if version.parse(airflow.__version__) >= version.parse('2.2'):
+    from airflow.models.param import Param
 
 WINDOWS_PDI_HOME = 'C:\\pentaho'  # noqa: W605
 
@@ -109,3 +113,22 @@ class TestPentahoClient(TestCase):
                                ' -user=test -pass=secret'
                                ' -trans=test'
                                ' -param:version=3')
+
+    def test_params_command(self):
+        cli = self._get_linux_client()
+        if version.parse(airflow.__version__) >= version.parse('2.2'):
+            tmpl = cli.build_command('pan', {'trans': 'test'}, {'version': Param(5, type="integer", minimum=3)})
+        else:
+            tmpl = cli.build_command('pan', {'trans': 'test'}, {'version': 5})
+        self.assertEqual(tmpl, '/opt/pentaho/pan.sh -rep=test_repository'
+                               ' -user=test -pass=secret'
+                               ' -trans=test'
+                               ' -param:version=5')
+
+    def test_empty_params_command(self):
+        cli = self._get_linux_client()
+        tmpl = cli.build_command('pan', {'trans': 'test'}, None)
+        self.assertEqual(tmpl, '/opt/pentaho/pan.sh -rep=test_repository'
+                               ' -user=test -pass=secret'
+                               ' -trans=test'
+                               '')

@@ -73,8 +73,8 @@ class PentahoHook(BaseHook):
                     "Unsupported platform for airflow_pentaho: '{}'"
                     .format(self.system))
 
-        def _build_argument(self, key, value):
-            return self._get_argument_template().format(key, value)
+        def _build_argument(self, key, val):
+            return self._get_argument_template().format(key, val)
 
         def _build_connection_arguments(self):
             line = list()
@@ -88,8 +88,12 @@ class PentahoHook(BaseHook):
                     self._build_connection_arguments()]
             for k, val in arguments.items():
                 line.append(self._build_argument(k, val))
-            for k, val in params.items():
-                line.append(self._build_argument(f'param:{k}', val))
+            if params is not None:    
+                for k, val in params.items():
+                    if version.parse(airflow.__version__) >= version.parse('2.2') and not (type(val) is str):
+                        line.append(self._build_argument(f'param:{k}', val.value))
+                    else:
+                        line.append(self._build_argument(f'param:{k}', val))
 
             command_line = ' '.join(line)
             return command_line
