@@ -107,9 +107,9 @@ class PDIBaseOperator(BaseOperator):
             child_processes = parent.children(recursive=True)
 
             os.killpg(os.getpgid(self.sub_process.pid), signal.SIGTERM)
-            
+
             _, alive = psutil.wait_procs(child_processes, timeout=10)
-            
+
             if alive:
                 for proc in alive:
                     self.log.info('Process %s did not respond to SIGTERM. Trying SIGKILL', proc)
