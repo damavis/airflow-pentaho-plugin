@@ -16,6 +16,7 @@
 
 
 import os
+import psutil
 import re
 import signal
 from subprocess import Popen, PIPE, STDOUT
@@ -99,9 +100,20 @@ class PDIBaseOperator(BaseOperator):
         return re.sub(r'(-|/)pass(=|:)([^\s]+)', '', text)
 
     def on_kill(self):
-        self.log.info('Sending SIGTERM signal to PDI process')
         if self.sub_process and hasattr(self.sub_process, 'pid'):
+            self.log.info('Sending SIGTERM signal to PDI process %s', self.sub_process.pid)
+
+            parent = psutil.Process(self.sub_process.pid)
+            child_processes = parent.children(recursive=True)
+
             os.killpg(os.getpgid(self.sub_process.pid), signal.SIGTERM)
+            
+            _, alive = psutil.wait_procs(child_processes, timeout=10)
+            
+            if alive:
+                for proc in alive:
+                    self.log.info('Process %s did not respond to SIGTERM. Trying SIGKILL', proc)
+                    os.kill(proc.pid, signal.SIGKILL)
 
 
 class PanOperator(PDIBaseOperator):
