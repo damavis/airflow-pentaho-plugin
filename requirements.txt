@@ -3,3 +3,4 @@ setuptools-git-version
 pytest
 pytest-cov
 twine
+toml
