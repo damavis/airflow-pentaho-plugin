@@ -26,7 +26,6 @@ setup(
     name='airflow-pentaho-plugin',
     version_format='1.0.17',
     license='Apache 2.0',
-    setup_requires=['setuptools-git-version'],
     author='Damavis',
     author_email='info@damavis.com',
     long_description=long_description,
