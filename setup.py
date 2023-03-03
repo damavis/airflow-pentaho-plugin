@@ -24,7 +24,7 @@ with open(path.join(this_directory, 'README.md'), encoding='utf-8') as f:
 
 setup(
     name='airflow-pentaho-plugin',
-    version_format='{tag}.post{commitcount}',
+    version_format='1.0.17',
     license='Apache 2.0',
     setup_requires=['setuptools-git-version'],
     author='Damavis',
