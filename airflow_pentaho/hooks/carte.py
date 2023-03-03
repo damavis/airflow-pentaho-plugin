@@ -161,8 +161,13 @@ class PentahoCarteHook(BaseHook):
                 'level': self.level
             }
 
-            if params:
-                args.update(params)
+            if params is not None:
+                for k, val in params.items():
+                    if version.parse(airflow.__version__) >= version.parse('2.2') and \
+                            not isinstance(val, str):
+                        args[k] = val.value
+                    else:
+                        args[k] = val
 
             rs = requests.get(url=url, params=args, auth=self.__get_auth())
             if rs.status_code >= 400:
