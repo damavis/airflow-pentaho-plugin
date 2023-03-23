@@ -126,7 +126,7 @@ class PentahoCarteHook(BaseHook):
             else:
                 return xmltodict.parse(rs.content)
 
-        def trans_status(self, trans_name, previous_response=None):
+        def trans_status(self, trans_name, trans_id=None, previous_response=None):
             url = self.__get_url(self.TRANS_STATUS_ENDPOINT)
             headers = {'Content-Type': 'application/x-www-form-urlencoded'}
 
@@ -139,6 +139,8 @@ class PentahoCarteHook(BaseHook):
                 'xml': 'Y',
                 'from': from_line
             }
+            if trans_id:
+                payload['id'] = trans_id
 
             rs = requests.post(url=url, headers=headers,
                                data=urlencode(payload), auth=self.__get_auth())

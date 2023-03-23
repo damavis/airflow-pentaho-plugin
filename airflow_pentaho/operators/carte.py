@@ -182,14 +182,18 @@ class CarteTransOperator(CarteBaseOperator):
         status_trans_rs = None
         status = None
         status_desc = None
+        trans_id = None
         while not status_trans_rs or status_desc not in self.FINISHED_STATUSES:
             status_trans_rs = conn.trans_status(self._get_trans_name(),
+                                                trans_id,
                                                 status_trans_rs)
             if 'transstatus' not in status_trans_rs:
                 raise AirflowException(
                     'Unexpected server response: ' + json.dumps(status_trans_rs))
 
             status = status_trans_rs['transstatus']
+            if 'id' in status:
+                trans_id = status['id']
             status_desc = status['status_desc']
             self.log.info(self.LOG_TEMPLATE, status_desc, self.trans)
             self._log_logging_string(status['logging_string'])
