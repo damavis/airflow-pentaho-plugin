@@ -183,7 +183,7 @@ class CarteTransOperator(CarteBaseOperator):
         status = None
         status_desc = None
         trans_id = None
-        while not status_trans_rs or status_desc not in self.FINISHED_STATUSES:
+        while not status_trans_rs or status_desc not in self.END_STATUSES:
             status_trans_rs = conn.trans_status(self._get_trans_name(),
                                                 trans_id,
                                                 status_trans_rs)
