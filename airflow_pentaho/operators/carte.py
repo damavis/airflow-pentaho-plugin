@@ -205,3 +205,7 @@ class CarteTransOperator(CarteBaseOperator):
         if 'error_desc' in status and status['error_desc']:
             self.log.error(self.LOG_TEMPLATE, status['error_desc'], self.trans)
             raise AirflowException(status['error_desc'])
+
+        if status_desc in self.ERRORS_STATUSES:
+            self.log.error(self.LOG_TEMPLATE, status['status_desc'], self.trans)
+            raise AirflowException(status['status_desc'])
