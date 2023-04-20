@@ -62,7 +62,7 @@ class CarteJobOperator(CarteBaseOperator):
     def __init__(self,
                  *args,
                  job=None,
-                 params=None,
+                 task_params=None,
                  pdi_conn_id=None,
                  level='Basic',
                  **kwargs):
@@ -85,7 +85,7 @@ class CarteJobOperator(CarteBaseOperator):
             self.pdi_conn_id = self.DEFAULT_CONN_ID
         self.job = job
         self.level = level
-        self.task_params = params
+        self.task_params = task_params
 
     def _get_pentaho_carte_client(self):
         return PentahoCarteHook(conn_id=self.pdi_conn_id,
