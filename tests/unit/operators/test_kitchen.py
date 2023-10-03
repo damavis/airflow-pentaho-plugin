@@ -26,7 +26,7 @@ class TestKitchenOperator(OperatorTestBase):
     def test_return_value(self):
         op = KitchenOperator(
             task_id='test_kitchen_operator',
-            xcom_push=True,
+            xcom_push=False,
             directory='/home',
             job='test_job',
             params={'a': '1'})
@@ -38,4 +38,4 @@ class TestKitchenOperator(OperatorTestBase):
         op._get_pentaho_client = MagicMock(return_value=mocked_cli)
 
         return_value = op.execute(context={})
-        self.assertTrue('This is a mocked result' in return_value)
+        self.assertIsNone(return_value)

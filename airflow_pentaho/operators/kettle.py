@@ -23,7 +23,7 @@ from tempfile import NamedTemporaryFile
 from tempfile import TemporaryDirectory
 
 from airflow import AirflowException
-from airflow.models import BaseOperator
+from airflow.models import BaseOperator, XCOM_RETURN_KEY
 
 from airflow_pentaho.hooks.kettle import PentahoHook
 
@@ -76,9 +76,13 @@ class PDIBaseOperator(BaseOperator):
                     preexec_fn=pre_exec)
 
                 self.log.info('Output:')
+                err_count = 0
                 line = ''
                 for line in iter(self.sub_process.stdout.readline, b''):
                     line = line.decode('utf-8').rstrip()
+                    if "error" in line.lower():
+                        err_count += 1
+                        self.log.info("Errors: %s", err_count)
                     self.log.info(line)
                 self.sub_process.wait()
 
@@ -91,8 +95,7 @@ class PDIBaseOperator(BaseOperator):
                 if self.sub_process.returncode:
                     raise AirflowException(message)
 
-        if self.xcom_push_flag:
-            return line
+        return line, err_count
 
     @staticmethod
     def _hide_sensitive_data(text):
@@ -201,9 +204,11 @@ class PanOperator(PDIBaseOperator):
             arguments.update({'norep': 'true'})
 
         self.command_line = conn.build_command('pan', arguments, self.task_params)
-        output = self._run_command()
+        output, err_count = self._run_command()
 
         if self.xcom_push_flag:
+            self.xcom_push(context, key=XCOM_RETURN_KEY, value=output)
+            self.xcom_push(context, key='err_count', value=err_count)
             return output
 
 
@@ -301,7 +306,9 @@ class KitchenOperator(PDIBaseOperator):
             arguments.update({'norep': 'true'})
 
         self.command_line = conn.build_command('kitchen', arguments, self.task_params)
-        output = self._run_command()
+        output, err_count = self._run_command()
 
         if self.xcom_push_flag:
+            self.xcom_push(context, key=XCOM_RETURN_KEY, value=output)
+            self.xcom_push(context, key='err_count', value=err_count)
             return output

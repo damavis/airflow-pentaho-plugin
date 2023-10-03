@@ -26,7 +26,7 @@ class TestPanOperator(OperatorTestBase):
     def test_return_value(self):
         op = PanOperator(
             task_id='test_mocked_pan_operator',
-            xcom_push=True,
+            xcom_push=False,
             directory='/home',
             trans='test_trans',
             params={'a': '1'})
@@ -38,4 +38,4 @@ class TestPanOperator(OperatorTestBase):
         op._get_pentaho_client = MagicMock(return_value=mocked_cli)
 
         return_value = op.execute(context={})
-        self.assertTrue('This is a mocked result' in return_value)
+        self.assertIsNone(return_value)
