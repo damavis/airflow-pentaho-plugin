@@ -23,9 +23,11 @@ from tempfile import NamedTemporaryFile
 from tempfile import TemporaryDirectory
 
 from airflow import AirflowException
-from airflow.models import BaseOperator, XCOM_RETURN_KEY
+from airflow.models import BaseOperator
 
 from airflow_pentaho.hooks.kettle import PentahoHook
+
+XCOM_RETURN_KEY = 'return_value'
 
 
 class PDIBaseOperator(BaseOperator):
