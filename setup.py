@@ -24,7 +24,7 @@ with open(path.join(this_directory, 'README.md'), encoding='utf-8') as f:
 
 setup(
     name='airflow-pentaho-plugin',
-    version='1.1.1',
+    version='1.1.2',
     license='Apache 2.0',
     author='Damavis',
     author_email='info@damavis.com',

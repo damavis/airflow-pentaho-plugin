@@ -92,7 +92,7 @@ class CarteJobOperator(CarteBaseOperator):
                                 level=self.level).get_conn()
 
     def _get_job_name(self):
-        return self.job.split('/').pop()
+        return self.job.split('/').pop().replace('.kjb', '')
 
     def execute(self, context):  # pylint: disable=unused-argument
         conn = self._get_pentaho_carte_client()
@@ -171,7 +171,7 @@ class CarteTransOperator(CarteBaseOperator):
                                 level=self.level).get_conn()
 
     def _get_trans_name(self):
-        return self.trans.split('/').pop()
+        return self.trans.split('/').pop().replace('.ktr', '')
 
     def execute(self, context):  # pylint: disable=unused-argument
         conn = self._get_pentaho_carte_client()
