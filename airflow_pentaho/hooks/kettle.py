@@ -14,7 +14,6 @@
 # limitations under the License.
 """Kettle hook module"""
 
-
 import platform
 from packaging import version
 
@@ -99,29 +98,51 @@ class PentahoHook(BaseHook):
             command_line = ' '.join(line)
             return command_line
 
-    def __init__(self, conn_id='pdi_default'):
-        if version.parse(airflow.__version__) >= version.parse('2.0'):
-            super().__init__()
-        else:
-            super().__init__(None)
-        self.conn_id = conn_id
-        self.connection = self.get_connection(conn_id)
-        self.extras = self.connection.extra_dejson
-        self.pentaho_cli = None
+    class PdiClient:
+        def __init__(
+                self,
+                pentaho_home,
+                system,
+                *args,
+                **kwargs):
+            super().__init__(*args, **kwargs)
+            self.pentaho_home = pentaho_home
+            self.system = system
 
-    def get_conn(self):
-        """
-        Provide required object to run transformations and jobs
-        :return:
-        """
-        if self.pentaho_cli:
-            return self.pentaho_cli
+        def _build_tool_command(self, command):
+            return self._get_tool_command_template().format(self.pentaho_home,
+                                                            command)
 
-        self.pentaho_cli = self.PentahoClient(
-            self.extras.get('pentaho_home'),
-            self.extras.get('rep'),
-            self.connection.login,
-            self.connection.password,
-            platform.system())
+        def _get_tool_command_template(self):
+            if self.system == 'Windows':
+                return '{}\\{}.bat'
+            elif self.system == 'Linux':
+                return """{}/{}.sh"""
+            else:
+                raise AirflowException(f"Unsupported platform for airflow_pentaho: '{self.system}'")
 
-        return self.pentaho_cli
+        def _get_argument_template(self):
+            if self.system == 'Windows':
+                return '/{}:{}'
+            elif self.system == 'Linux':
+                return '-{}={}'
+            else:
+                raise AirflowException(f"Unsupported platform for airflow_pentaho: '{format(self.system)}'")
+
+        def _build_argument(self, key, val):
+            return self._get_argument_template().format(key, val)
+
+        def build_command(self, command, arguments, params):
+            line = [self._build_tool_command(command)]
+            for k, val in arguments.items():
+                line.append(self._build_argument(k, val))
+            if params is not None:
+                for k, val in params.items():
+                    if version.parse(airflow.__version__) >= version.parse('2.2') and \
+                            not isinstance(val, str):
+                        line.append(self._build_argument(f'param:{k}', val.value))
+                    else:
+                        line.append(self._build_argument(f'param:{k}', val))
+
+            command_line = ' '.join(line)
+            return command_line

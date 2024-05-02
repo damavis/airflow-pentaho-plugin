@@ -24,6 +24,7 @@ from airflow_pentaho.operators.kettle import KitchenOperator
 from airflow_pentaho.operators.kettle import PanOperator
 from airflow_pentaho.operators.carte import CarteJobOperator
 from airflow_pentaho.operators.carte import CarteTransOperator
+from airflow_pentaho.operators.kettle import KitchenLocalOperator
 
 DAG_NAME = 'pdi_flow'
 DEFAULT_ARGS = {
@@ -70,4 +71,11 @@ with DAG(dag_id=DAG_NAME,
         job='/home/bi/test_job',
         params={'date': '{{ ds }}'})
 
-    job1 >> trans1 >> trans2 >> job3
+    job4 = KitchenLocalOperator(
+        dag=dag,
+        task_id='job4',
+        job='tests/assets/test_job.kjb',
+        params={'date': '{{ ds }}'}
+    )
+
+    job1 >> trans1 >> trans2 >> job3 >> job4

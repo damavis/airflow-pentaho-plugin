@@ -22,10 +22,14 @@ from airflow_pentaho.operators.carte import CarteJobOperator
 from airflow_pentaho.operators.carte import CarteTransOperator
 from airflow_pentaho.operators.kettle import KitchenOperator
 from airflow_pentaho.operators.kettle import PanOperator
+from airflow_pentaho.operators.kettle import KitchenLocalOperator
+
+
 
 
 class PentahoPlugin(AirflowPlugin):
     name = 'airflow_pentaho'
     operators = [KitchenOperator, PanOperator,
+                 KitchenLocalOperator,
                  CarteJobOperator, CarteTransOperator]
     hooks = [PentahoHook, PentahoCarteHook]

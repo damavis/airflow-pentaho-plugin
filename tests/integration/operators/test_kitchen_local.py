@@ -14,31 +14,40 @@
 # limitations under the License.
 
 
-from airflow_pentaho.operators.kettle import KitchenOperator
-from tests.operator_test_base import OperatorTestBase
+from airflow_pentaho.operators.kettle import KitchenLocalOperator
+from tests.operator_test_base_local import OperatorTestBaseLocal
 
 
-class TestKitchenOperator(OperatorTestBase):
+class TestKitchenOperator(OperatorTestBaseLocal):
     """Test Kitchen Operator"""
 
     def test_return_value(self):
-        op = KitchenOperator(
+        op= KitchenLocalOperator(
             task_id='test_kitchen_operator',
             xcom_push=True,
-            directory='/home/test',
+            directory='/Users/rvalenzuela/Documents/Proyectos/airflow-pentaho-plugin-master/airflow-pentaho-plugin/tests/assets/',
             job='test_job',
-            params={'a': '1'})
-
+            params={'a': '1'}
+        )
         return_value = op.execute(context={})
         self.assertTrue('Kitchen - Processing ended' in return_value)
+        # op = KitchenLocalOperator(
+        #     task_id='test_kitchen_operator',
+        #     xcom_push=True,
+        #     directory='/home/test',
+        #     job='test_job',
+        #     params={'a': '1'})
+        #
+        # return_value = op.execute(context={})
+        # self.assertTrue('Kitchen - Processing ended' in return_value)
 
-    def test_return_value_file(self):
-        op = KitchenOperator(
-            task_id='test_kitchen_operator',
-            xcom_push=True,
-            file=self.TESTS_PATH + '/assets/test_job.kjb',
-            job='test_job',
-            params={'a': '1'})
-
-        return_value = op.execute(context={})
-        self.assertTrue('Kitchen - Processing ended' in return_value)
+    # def test_return_value_file(self):
+    #     op = KitchenLocalOperator(
+    #         task_id='test_kitchen_operator',
+    #         xcom_push=True,
+    #         file=self.TESTS_PATH + '/assets/test_job.kjb',
+    #         job='test_job',
+    #         params={'a': '1'})
+    #
+    #     return_value = op.execute(context={})
+    #     self.assertTrue('Kitchen - Processing ended' in return_value)

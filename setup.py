@@ -26,11 +26,11 @@ setup(
     name='airflow-pentaho-plugin',
     version='1.1.2',
     license='Apache 2.0',
-    author='Damavis',
-    author_email='info@damavis.com',
+    author='HitachiVantara',
+    author_email='rafael.valenzuela@hitachivantara.com',
     long_description=long_description,
     long_description_content_type='text/markdown',
-    url='https://github.com/damavis/airflow-pentaho-plugin',
+    url='https://github.com/rafahv/airflow-pentaho-plugin',
     python_requires='>=3',
     test_suite='nose.collector',
     zip_safe=False,
@@ -45,7 +45,8 @@ setup(
         'Programming Language :: Python :: 3.6',
         'Programming Language :: Python :: 3.7',
         'Programming Language :: Python :: 3.8',
-        'Programming Language :: Python :: 3.9'
+        'Programming Language :: Python :: 3.9',
+        'Programming Language :: Python :: 3.12'
     ],
     install_requires=[
       'xmltodict >= 0.12.0',
