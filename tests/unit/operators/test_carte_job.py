@@ -77,6 +77,7 @@ class TestCarteJobOperator(OperatorTestBase):
     def test_execute(self, mock_post, mock_get):  # pylint: disable=unused-argument
         op = CarteJobOperator(
             task_id='test_carte_job_operator',
+            xcom_push=False,
             job='/home/bi/test_job',
             level='Debug')
 

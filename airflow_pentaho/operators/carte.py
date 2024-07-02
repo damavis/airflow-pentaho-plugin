@@ -26,6 +26,7 @@ from airflow.models import BaseOperator
 
 from airflow_pentaho.hooks.carte import PentahoCarteHook
 
+XCOM_RETURN_KEY = 'return_value'
 
 class CarteBaseOperator(BaseOperator):
     """Carte Base Operator"""
@@ -48,10 +49,18 @@ class CarteBaseOperator(BaseOperator):
         cdata = cdata.group(1) if cdata else raw_logging_string
         decoded_lines = zlib.decompress(base64.b64decode(cdata),
                                         16 + zlib.MAX_WBITS)
+        err_count = 0
+        output_line = ''
         if decoded_lines:
             for line in re.compile(r'\r\n|\n|\r').split(
                     decoded_lines.decode('utf-8')):
+                if "error" in line.lower():
+                    err_count += 1
+                    self.log.info("Errors: %s", err_count)
                 self.log.info(line)
+                if len(line)>0:
+                    output_line = line
+        return output_line, err_count    
 
 
 class CarteJobOperator(CarteBaseOperator):
@@ -65,6 +74,7 @@ class CarteJobOperator(CarteBaseOperator):
                  params=None,
                  pdi_conn_id=None,
                  level='Basic',
+                 xcom_push=False,
                  **kwargs):
         """
         Execute a Job in a remote Carte server from a PDI repository.
@@ -80,6 +90,7 @@ class CarteJobOperator(CarteBaseOperator):
         """
         super().__init__(*args, **kwargs)
 
+        self.xcom_push_flag = xcom_push
         self.pdi_conn_id = pdi_conn_id
         if not self.pdi_conn_id:
             self.pdi_conn_id = self.DEFAULT_CONN_ID
@@ -115,12 +126,16 @@ class CarteJobOperator(CarteBaseOperator):
             status = status_job_rs['jobstatus']
             status_desc = status['status_desc']
             self.log.info(self.LOG_TEMPLATE, status_desc, self.job, job_id)
-            self._log_logging_string(status['logging_string'])
+            output, err_count = self._log_logging_string(status['logging_string'])
 
             if status_desc not in self.END_STATUSES:
                 self.log.info('Sleeping 5 seconds before ask again')
                 time.sleep(5)
-
+        
+        if self.xcom_push_flag:
+            self.xcom_push(context, key=XCOM_RETURN_KEY, value=output)
+            self.xcom_push(context, key='err_count', value=err_count)
+            
         if 'error_desc' in status and status['error_desc']:
             self.log.error(self.LOG_TEMPLATE, status['error_desc'],
                            self.job, job_id)
@@ -130,7 +145,7 @@ class CarteJobOperator(CarteBaseOperator):
             self.log.error(self.LOG_TEMPLATE, status['status_desc'],
                            self.job, job_id)
             raise AirflowException(status['status_desc'])
-
+        
 
 class CarteTransOperator(CarteBaseOperator):
     """Cart Transformation operator. Runs job on Carte service."""
@@ -143,6 +158,7 @@ class CarteTransOperator(CarteBaseOperator):
                  params=None,
                  pdi_conn_id=None,
                  level='Basic',
+                 xcom_push=False,
                  **kwargs):
         """
         Execute a Transformation in a remote Carte server from a PDI
@@ -159,6 +175,7 @@ class CarteTransOperator(CarteBaseOperator):
         """
         super().__init__(*args, **kwargs)
 
+        self.xcom_push_flag = xcom_push
         self.pdi_conn_id = pdi_conn_id
         if not self.pdi_conn_id:
             self.pdi_conn_id = self.DEFAULT_CONN_ID
@@ -196,11 +213,15 @@ class CarteTransOperator(CarteBaseOperator):
                 trans_id = status['id']
             status_desc = status['status_desc']
             self.log.info(self.LOG_TEMPLATE, status_desc, self.trans)
-            self._log_logging_string(status['logging_string'])
+            output, err_count = self._log_logging_string(status['logging_string'])
 
             if status_desc not in self.END_STATUSES:
                 self.log.info('Sleeping 5 seconds before ask again')
                 time.sleep(5)
+        
+        if self.xcom_push_flag:
+            self.xcom_push(context, key=XCOM_RETURN_KEY, value=output)
+            self.xcom_push(context, key='err_count', value=err_count)
 
         if 'error_desc' in status and status['error_desc']:
             self.log.error(self.LOG_TEMPLATE, status['error_desc'], self.trans)
@@ -209,3 +230,4 @@ class CarteTransOperator(CarteBaseOperator):
         if status_desc in self.ERRORS_STATUSES:
             self.log.error(self.LOG_TEMPLATE, status['status_desc'], self.trans)
             raise AirflowException(status['status_desc'])
+            
