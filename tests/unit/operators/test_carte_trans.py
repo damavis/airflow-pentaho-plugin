@@ -84,6 +84,7 @@ class TestCarteTransOperator(OperatorTestBase):
     def test_execute(self, mock_post, mock_get):  # pylint: disable=unused-argument
         op = CarteTransOperator(
             task_id='test_carte_trans_operator',
+            xcom_push=False,
             trans='/home/bi/test_trans',
             level='Debug')
 
