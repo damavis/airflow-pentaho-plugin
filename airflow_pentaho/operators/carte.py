@@ -213,7 +213,7 @@ class CarteTransOperator(CarteBaseOperator):
                 trans_id = status['id']
             status_desc = status['status_desc']
             self.log.info(self.LOG_TEMPLATE, status_desc, self.trans)
-            output,err_count = self._log_logging_string(status['logging_string'])
+            output, err_count = self._log_logging_string(status['logging_string'])
 
             if status_desc not in self.END_STATUSES:
                 self.log.info('Sleeping 5 seconds before ask again')
