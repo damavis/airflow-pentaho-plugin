@@ -78,6 +78,7 @@ class TestCarteJobOperator(OperatorTestBase):
         op = CarteJobOperator(
             task_id='test_carte_job_operator',
             job='/home/bi/test_job',
+            xcom_push=False,
             level='Debug')
 
         op.execute(context={})
