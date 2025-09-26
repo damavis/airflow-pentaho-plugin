@@ -75,8 +75,7 @@ class PDIBaseOperator(BaseOperator):
                     ['bash', fname],
                     stdout=PIPE,
                     stderr=STDOUT,
-                    cwd=tmp_dir,
-                    preexec_fn=pre_exec)
+                    cwd=tmp_dir)
 
                 self.log.info('Output:')
                 err_count = 0
