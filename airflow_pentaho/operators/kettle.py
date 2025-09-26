@@ -108,17 +108,21 @@ class PDIBaseOperator(BaseOperator):
         if self.sub_process and hasattr(self.sub_process, 'pid'):
             self.log.info('Sending SIGTERM signal to PDI process %s', self.sub_process.pid)
 
+            # Get process
             parent = psutil.Process(self.sub_process.pid)
-            child_processes = parent.children(recursive=True)
 
-            os.killpg(os.getpgid(self.sub_process.pid), signal.SIGTERM)
+            # Terminate
+            child_processes = parent.children(recursive=True)
+            for child in child_processes:
+                child.terminate()
+            parent.terminate()
 
             _, alive = psutil.wait_procs(child_processes, timeout=10)
 
-            if alive:
-                for proc in alive:
-                    self.log.info('Process %s did not respond to SIGTERM. Trying SIGKILL', proc)
-                    os.kill(proc.pid, signal.SIGKILL)
+            # Kill
+            for p in alive:
+                p.kill()
+            parent.kill()
 
 
 class PanOperator(PDIBaseOperator):
